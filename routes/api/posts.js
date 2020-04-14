@@ -1,22 +1,22 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const tktksCtrl = require('../../controllers/tktks');
+const postsCtrl = require("../../controllers/posts");
 
 /*------------------------------ Public Routes ------------------------------*/
 
-router.get('/', checkAuth, tktksCtrl.index);
+router.get("/", checkAuth, postsCtrl.index);
 
 /*----------------------------- Protected Routes ----------------------------*/
 
 // Process the token for only the routes below
-router.use(require('../../config/auth'));
-router.post('/', checkAuth, tktksCtrl.create);
+router.use(require("../../config/auth"));
+router.post("/", checkAuth, postsCtrl.create);
 
 /*----------------------------- Helper Functions ----------------------------*/
 
 function checkAuth(req, res, next) {
   if (req.user) return next();
-  return res.status(401).json({msg: 'Not Authorized'});
+  return res.status(401).json({ msg: "Not Authorized" });
 }
 
 module.exports = router;
