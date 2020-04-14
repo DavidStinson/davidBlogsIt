@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Input from "../Input"
 
 class Form extends Component {
   state = { 
@@ -61,8 +62,18 @@ class Form extends Component {
     )
   }
 
-  renderInput(label){
-    
+  renderInput(name, label, type = "text"){
+    const { data, errors } = this.state;
+    return (
+      <Input
+        type={type}
+        name={name}
+        label={label}
+        value={data[name]}
+        handleChange={this.handleChange}
+        error={errors[name]}
+      />
+    )
   }
 }
  
