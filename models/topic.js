@@ -6,8 +6,7 @@ const subTopicSchema = new Schema (
   {
     name: [{
       type: String,
-      required: true,
-      unique: true
+      required: true
     }]
   },
   {
@@ -32,7 +31,6 @@ const topicSchema = new Schema(
   }
 );
 
-topicSchema.plugin(uniqueValidator)
-subTopicSchema.plugin(uniqueValidator)
+topicSchema.plugin(uniqueValidator, { message: 'That topic already exists!' })
 
 module.exports = mongoose.model("Topic", topicSchema);

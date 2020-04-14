@@ -42,6 +42,6 @@ userSchema.methods.comparePassword = function(tryPassword, cb) {
   });
 };
 
-userSchema.plugin(uniqueValidator)
+userSchema.plugin(uniqueValidator, { message: 'The {PATH} {VALUE} is already in use'})
 
 module.exports = mongoose.model('User', userSchema);
