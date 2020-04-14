@@ -22,7 +22,6 @@ class Form extends Component {
 
   validateField = ({ name, value }) => {
     const obj = { [name]: value };
-    // strange voodoo magic
     const { error } = this.joiSchema.validate(obj, this.joiOptions);
     if (!error) return null;
     let message;
