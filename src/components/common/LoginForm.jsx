@@ -1,5 +1,5 @@
 import React from "react";
-import TextInput from "./textInput";
+import Input from "./Input";
 import Joi from "@hapi/joi";
 import Form from "./utility/Form"
 
@@ -25,23 +25,21 @@ class LoginForm extends Form {
       <div>
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
-          <TextInput
+          <Input
             name="username"
             label="Username"
             value={data.username}
             handleChange={this.handleChange}
             error={errors.username}
           />
-          <TextInput
+          <Input
             name="password"
             label="Password"
             value={data.password}
             handleChange={this.handleChange}
             error={errors.password}
           />
-          <button disabled={this.validateForm()} className="btn btn-primary">
-            Login
-          </button>
+          {this.renderButton("Login")}
         </form>
       </div>
     );

@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 
 class Form extends Component {
   state = { 
@@ -52,6 +52,18 @@ class Form extends Component {
 
     this.setState({ data, errors });
   };
+
+  renderButton(label){
+    return (
+      <button disabled={this.validateForm()} className="btn btn-primary">
+        {label}
+      </button>
+    )
+  }
+
+  renderInput(label){
+    
+  }
 }
  
 export default Form;
