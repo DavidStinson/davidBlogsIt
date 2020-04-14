@@ -23,7 +23,6 @@ class LoginForm extends Form {
     const { data, errors } = this.state;
     return (
       <div>
-        <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
           <Input
             name="username"
