@@ -44,6 +44,10 @@ const postSchema = new Schema(
       required: true,
       default: `${day}, ${month} ${date} ${year}`,
     },
+    update:{
+      type: String,
+      default: null
+    },
     isHero: {
       type: Boolean,
       required: true,
