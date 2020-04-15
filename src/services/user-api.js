@@ -10,6 +10,11 @@ export function signup(user) {
   })
   .then(res => {
     if (res.ok) return res.json();
+    console.log(res)
+    console.log("^^^^ RES")
+
+    console.log(res.error)
+    console.log("^^^^ RES.ERROR")
     // Probably a duplicate email
     throw new Error('Email already taken!');
   })

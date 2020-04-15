@@ -1,16 +1,14 @@
-import React, { Component } from 'react';
-import './LoginPage.css';
-import LoginForm from '../../components/common/LoginForm'
+import React, { Component } from "react";
+import "./LoginPage.css";
+import LoginForm from "../../components/common/LoginForm";
 
-class LoginPage extends Component {
-  render() {
-    return (
-      <div className="LoginPage">
-        <header>Log In</header>
-        <LoginForm />
-      </div>
-    );
-  }
-}
+const LoginPage = ({ handleSignupOrLogin, history }) => {
+  return (
+    <div className="LoginPage">
+      <header>Log In</header>
+      <LoginForm handleSignupOrLogin={handleSignupOrLogin} history={history} />
+    </div>
+  );
+};
 
 export default LoginPage;

@@ -14,6 +14,7 @@ async function signup(req, res) {
     const token = createJWT(user);
     res.json({ token });
   } catch (err) {
+    console.log(err)
     // Probably a duplicate email
     res.status(400).json(err);
   }
@@ -21,9 +22,9 @@ async function signup(req, res) {
 
 async function login(req, res) {
   try {
-    const user = await User.findOne({email: req.body.email});
+    const user = await User.findOne({email: req.body.data.email});
     if (!user) return res.status(401).json({err: 'bad credentials'});
-    user.comparePassword(req.body.pw, (err, isMatch) => {
+    user.comparePassword(req.body.data.password, (err, isMatch) => {
       if (isMatch) {
         const token = createJWT(user);
         res.json({token});
@@ -32,6 +33,7 @@ async function login(req, res) {
       }
     });
   } catch (err) {
+    console.log(err)
     return res.status(401).json(err);
   }
 }

@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
+import React from "react";
 import SignupForm from "../../components/common/SignupForm";
-import './SignupPage.css';
+import "./SignupPage.css";
 
-class SignupPage extends Component {
-  render() {
-    return (
-      <div className='SignupPage'>
-        <SignupForm />
-      </div>
-    );
-  }
-}
+const SignupPage = ({ handleSignupOrLogin, history }) => {
+  return (
+    <div className="SignupPage">
+      <header>Signup Page</header>
+      <SignupForm handleSignupOrLogin={handleSignupOrLogin} history={history} />
+    </div>
+  );
+};
 
 export default SignupPage;
