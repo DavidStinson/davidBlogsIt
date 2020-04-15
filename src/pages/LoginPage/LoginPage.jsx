@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "./LoginPage.css";
 import LoginForm from "../../components/common/LoginForm";
 

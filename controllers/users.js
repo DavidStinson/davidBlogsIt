@@ -15,8 +15,9 @@ async function signup(req, res) {
     res.json({ token });
   } catch (err) {
     console.log(err)
-    // Probably a duplicate email
-    res.status(400).json(err);
+    console.log("^^^^^^ ERROR ON BACKEND users/controllers/users.signup ^^^^^^")
+    res.statusMessage = err.message;
+    res.status(444);
   }
 }
 

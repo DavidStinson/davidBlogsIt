@@ -3,7 +3,7 @@ import './App.css';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import SignupPage from '../SignupPage/SignupPage';
 import LoginPage from '../LoginPage/LoginPage';
-import PostsSecretPage from '../PostsSecretPage/PostsSecretPage'
+import CreatePostPage from '../CreatePostPage/CreatePostPage'
 import * as postAPI from '../../services/post-api';
 import * as userAPI from '../../services/user-api';
 import Post from '../../components/Post/Post'
@@ -59,7 +59,7 @@ class App extends Component {
           }/>
           <Route exact path='/post-secret' render={() => 
             userAPI.getUser() ? 
-              <PostsSecretPage />
+              <CreatePostPage />
             :
               <Redirect to='/login'/>
           }/>
