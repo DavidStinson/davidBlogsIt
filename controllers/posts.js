@@ -1,5 +1,4 @@
 var Post = require("../models/post");
-var Topic = require("../models/topic")
 
 module.exports = {
   index,
