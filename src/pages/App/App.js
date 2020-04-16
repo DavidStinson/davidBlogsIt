@@ -31,6 +31,7 @@ class App extends Component {
 
   async componentDidMount() {
     const posts = await postAPI.index();
+    console.log("mounted")
     this.setState({ posts });
   }
 
@@ -58,14 +59,14 @@ class App extends Component {
               handleSignupOrLogin={this.handleSignupOrLogin}
             />
           }/>
-          <Route exact path='/post-secret' render={() => 
+          <Route exact path='/new-post' render={(props) => 
             userAPI.getUser() ? 
-              <CreatePostPage user={user}/>
+              <CreatePostPage user={user} {...props}/>
             :
               <Redirect to='/login'/>
           }/>
           <Route exact path='/' render={() =>
-            <Post />
+            <Post posts={this.state.posts}/>
           }/>
         </Switch>
       </div>

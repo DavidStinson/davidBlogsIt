@@ -4,7 +4,7 @@ const postsCtrl = require("../../controllers/posts");
 
 /*------------------------------ Public Routes ------------------------------*/
 
-router.get("/", checkAuth, postsCtrl.index);
+router.get("/", postsCtrl.index);
 
 /*----------------------------- Protected Routes ----------------------------*/
 

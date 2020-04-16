@@ -4,23 +4,20 @@ const BASE_URL = "/api/posts/";
 
 export function index() {
   const options = {
-    method: "GET",
-    headers: {
-      Authorization: "Bearer " + tokenService.getToken(),
-    },
+    method: "GET"
   };
   return fetch(BASE_URL, options).then((res) => res.json());
 }
 
-export function create(score) {
+export function create(post) {
   const options = {
     method: "POST",
     headers: {
       "Content-type": "application/json",
-      // Add this header - don't forget the space after Bearer
       Authorization: "Bearer " + tokenService.getToken(),
     },
-    body: JSON.stringify(score),
+    body: JSON.stringify(post),
   };
-  return fetch(BASE_URL, options).then((res) => res.json());
+  return fetch(BASE_URL, options, {mode: "cors"})
+  .then((res) => res.json());
 }

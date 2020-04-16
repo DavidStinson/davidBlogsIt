@@ -1,4 +1,5 @@
 var Post = require("../models/post");
+var Topic = require("../models/topic")
 
 module.exports = {
   index,
@@ -16,10 +17,17 @@ async function index(req, res) {
 
 async function create(req, res) {
   console.log("user: ", req.user);
+  console.log("post: ", req.body)
   try {
+    req.body.author = req.user._id
+    const topic = {}
+    topic.name = req.body.topic
+    delete req.body.topic
     const post = await Post.create(req.body);
+    await Topic.create(topic)
     res.status(201).json(post);
   } catch (err) {
+    console.log(err)
     res.status(500).json(err);
   }
 }

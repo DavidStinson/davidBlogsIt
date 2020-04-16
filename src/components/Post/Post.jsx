@@ -1,10 +1,12 @@
 import React from "react";
 
-const Post = () => {
+const Post = props => {
+  console.log(props)
   return (
     <React.Fragment>
-      <h3>This is the Post Component.</h3>
-      <p>It is located at src/components/Post/Post.jsx</p>
+      <h3>test</h3>
+
+      {props.posts.map}
     </React.Fragment>
   );
 };

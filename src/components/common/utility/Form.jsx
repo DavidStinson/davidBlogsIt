@@ -55,10 +55,16 @@ class Form extends Component {
     this.setState({ data, errors });
   };
 
+  handleContentInputChange = ({ target: input }) => {
+    const data = { ...this.state.data };
+    const errors = { ...this.state.errors };
+    data.content[0].content = input.value;
+    this.setState({ data, errors });
+  };
+
   handleCheckboxChange = ({ target: input }) => {
     const data = {...this.state.data };
     const errors = { ...this.state.errors }
-    console.log(input.checked)
     data[input.name] = input.checked
     this.setState({ data, errors })
   }
@@ -87,6 +93,24 @@ class Form extends Component {
         autoComplete={autocomplete}
       />
       <div>{error && <div className="alert alert-danger">{error}</div>}</div>
+    </div>
+    )
+  }
+
+  renderContentInput(name, label, type = "text", autocomplete = "off"){
+    const { content } = this.state.data.content[0];
+    return (
+      <div className="form-group">
+      <label htmlFor={name}>{label}</label>
+      <input
+        type={type}
+        value={content}
+        name={name}
+        id={name}
+        onChange={this.handleContentInputChange}
+        className="form-control"
+        autoComplete={autocomplete}
+      />
     </div>
     )
   }
