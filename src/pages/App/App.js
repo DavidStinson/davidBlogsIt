@@ -34,6 +34,13 @@ class App extends Component {
     }), () => this.props.history.push('/'))
   }
 
+  handleDeletedPost = (postId) => {
+    this.setState(state => ({
+      posts: state.posts.filter(post => post._id !== postId)
+    }), () => this.props.history.push('/'));
+  }
+
+
   /*-------------------------- Lifecycle Methods ---------------------------*/
 
   async componentDidMount() {
@@ -77,7 +84,7 @@ class App extends Component {
               <Redirect to='/login'/>
           }/>
           <Route exact path='/' render={() =>
-            <ListPostsPage posts={this.state.posts} user={user}/>
+            <ListPostsPage posts={this.state.posts} user={user} handleDeletedPost={this.handleDeletedPost}/>
           }/>
         </Switch>
       </div>
