@@ -4,6 +4,7 @@ var Topic = require("../models/topic")
 module.exports = {
   index,
   create,
+  delete: deleteOne,
 };
 
 async function index(req, res) {
@@ -25,6 +26,16 @@ async function create(req, res) {
     res.status(201).json(post);
   } catch (err) {
     console.log(err)
+    res.status(500).json(err);
+  }
+}
+
+async function deleteOne(req, res) {
+  try{
+    const deletedPost = await Post.findByIdAndRemove(req.params.id);
+    res.status(200).json(deletedPost);
+  }
+  catch(err){
     res.status(500).json(err);
   }
 }
