@@ -21,11 +21,9 @@ class LoginForm extends Form {
       await userAPI.login(this.state);
       // Let <App> know a user has signed up!
       handleSignupOrLogin();
-      // Successfully signed up - show GamePage
       history.push('/');
     } catch (err) {
       console.log(err)
-      // Use a modal or toast in your apps instead of alert
       this.setState({submitError: "Invalid Credentials!"})
     }
   }
