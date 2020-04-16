@@ -19,12 +19,9 @@ async function create(req, res) {
   console.log("user: ", req.user);
   console.log("post: ", req.body)
   try {
-    req.body.author = req.user._id
-    const topic = {}
-    topic.name = req.body.topic
-    delete req.body.topic
+    req.body.author = req.user.name
+    req.body.authorRef = req.user._id
     const post = await Post.create(req.body);
-    await Topic.create(topic)
     res.status(201).json(post);
   } catch (err) {
     console.log(err)

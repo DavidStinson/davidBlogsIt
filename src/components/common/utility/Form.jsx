@@ -58,7 +58,7 @@ class Form extends Component {
   handleContentInputChange = ({ target: input }) => {
     const data = { ...this.state.data };
     const errors = { ...this.state.errors };
-    data.content[0].content = input.value;
+    data.content[0].data = input.value;
     this.setState({ data, errors });
   };
 

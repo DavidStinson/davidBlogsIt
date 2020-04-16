@@ -12,7 +12,7 @@ class CreatePostForm extends Form {
       topic: "",
       isHero: false,
       content: [{
-        content: ""
+        data: ""
       }
       ]
     },
@@ -29,9 +29,7 @@ class CreatePostForm extends Form {
 
   doSubmit = async () => {
     const newPost = await postAPI.create(this.state.data);
-    this.setState(state => ({
-      posts: [...state.posts, newPost]
-    }), () => this.props.history.push('/'));
+    this.props.handleSubmittedPost(newPost)
   };
 
   render() {

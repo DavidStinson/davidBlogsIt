@@ -41,3 +41,18 @@ export function login(creds) {
   })
   .then(({token}) => tokenService.setToken(token));
 }
+
+export function getUserById() {
+  return 
+}
+
+export function getAll() {
+  const options = {
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + tokenService.getToken()
+    }
+  };
+  return fetch(BASE_URL, options, {mode: "cors"})
+  .then(res => res.json());
+}

@@ -6,14 +6,14 @@ import LoginPage from '../LoginPage/LoginPage';
 import CreatePostPage from '../CreatePostPage/CreatePostPage'
 import * as postAPI from '../../services/post-api';
 import * as userAPI from '../../services/user-api';
-import Post from '../../components/Post/Post'
+import ListPostsPage from '../../pages/ListPostsPage/ListPostsPage'
 import NavBar from '../../components/NavBar/NavBar'
 
 class App extends Component {
   state = {
     // Initialize user if there's a token, otherwise null
     user: userAPI.getUser(),
-    posts: null
+    posts: []
   };
 
   /*--------------------------- Callback Methods ---------------------------*/
@@ -25,6 +25,13 @@ class App extends Component {
 
   handleSignupOrLogin = () => {
     this.setState({user: userAPI.getUser()});
+  }
+
+  handleSubmittedPost = (newPost) => {
+    console.log(newPost)
+    this.setState(state => ({
+      posts:[...state.posts, newPost]
+    }), () => this.props.history.push('/'))
   }
 
   /*-------------------------- Lifecycle Methods ---------------------------*/
@@ -60,13 +67,17 @@ class App extends Component {
             />
           }/>
           <Route exact path='/new-post' render={(props) => 
-            userAPI.getUser() ? 
-              <CreatePostPage user={user} {...props}/>
+            user ? 
+              <CreatePostPage 
+                user={user} 
+                handleSubmittedPost={this.handleSubmittedPost} 
+                {...props}
+              />
             :
               <Redirect to='/login'/>
           }/>
           <Route exact path='/' render={() =>
-            <Post posts={this.state.posts}/>
+            <ListPostsPage posts={this.state.posts} user={user}/>
           }/>
         </Switch>
       </div>

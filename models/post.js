@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const contentSchema = new Schema(
   {
-    content: {
+    data: {
       type: String,
       required: true,
     },
@@ -27,17 +27,25 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
-    author: {
+    author:{
+      type: String,
+      required: true,
+    },
+    authorRef: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    topic: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Topic",
-        required: true,
-      },
-    ],
+    topic: {
+      type: String,
+      required: true,
+    },
+    // topic: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Topic",
+    //     required: true,
+    //   },
+    // ],
     date: {
       type: String,
       required: true,

@@ -1,12 +1,16 @@
 import React from "react";
 
-const Post = props => {
-  console.log(props)
+const Post = ({post, user}) => {
+  
   return (
     <React.Fragment>
-      <h3>test</h3>
-
-      {props.posts.map}
+      <h3>{post.title}</h3>
+      <p>{post.author.name}</p>
+      <h4>{post.topic}</h4>
+      <br />
+      {post.content.map(content =>
+        <p key={content._id}>{content.content}</p>
+      )}
     </React.Fragment>
   );
 };
