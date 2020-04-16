@@ -1,11 +1,11 @@
 import React from "react";
 import CreatePostForm from "../../components/CreatePostForm/CreatePostForm"
 
-const CreatePostPage = () => {
+const CreatePostPage = ({user}) => {
   return (
     <div className="CreatePostPage">
-      <header>Log In</header>
-      <CreatePostForm  />
+      <header>Create a post</header>
+      <CreatePostForm  user={user}/>
     </div>
   );
 };

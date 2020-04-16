@@ -15,7 +15,6 @@ export function signup(user) {
     // Probably a duplicate email
     throw new Error('Email already taken!');
   })
-  // Parameter destructuring!
   .then(({token}) => tokenService.setToken(token));
   // The above could have been written as
   //.then((token) => token.token);

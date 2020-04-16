@@ -16,8 +16,7 @@ async function signup(req, res) {
   } catch (err) {
     console.log(err)
     console.log("^^^^^^ ERROR ON BACKEND users/controllers/users.signup ^^^^^^")
-    res.statusMessage = err.message;
-    res.status(444);
+    res.status(400).send("test");
   }
 }
 

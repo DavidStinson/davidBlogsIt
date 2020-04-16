@@ -37,11 +37,12 @@ class App extends Component {
   /*-------------------------------- Render --------------------------------*/
 
   render() {
+    const {user} = this.state
     return (
       <div className="App">
         <h1>Welcome to Post</h1>
         <NavBar
-          user={this.state.user}
+          user={user}
           handleLogout={this.handleLogout}
         />
         <Switch>
@@ -59,7 +60,7 @@ class App extends Component {
           }/>
           <Route exact path='/post-secret' render={() => 
             userAPI.getUser() ? 
-              <CreatePostPage />
+              <CreatePostPage user={user}/>
             :
               <Redirect to='/login'/>
           }/>

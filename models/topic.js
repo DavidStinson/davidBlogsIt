@@ -2,17 +2,17 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const uniqueValidator = require('mongoose-unique-validator')
 
-const subTopicSchema = new Schema (
-  {
-    name: [{
-      type: String,
-      required: true
-    }]
-  },
-  {
-    timestamps :true
-  }
-)
+// const subTopicSchema = new Schema (
+//   {
+//     name: [{
+//       type: String,
+//       required: true
+//     }]
+//   },
+//   {
+//     timestamps :true
+//   }
+// )
 
 const topicSchema = new Schema(
   {
@@ -24,7 +24,7 @@ const topicSchema = new Schema(
     icon: {
       type: String
     },
-    subtopic: [subTopicSchema]
+    //subtopic: [subTopicSchema]
   },
   {
     timestamps: true,

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Input from "../Input"
 
 class Form extends Component {
   state = { 
@@ -44,7 +43,7 @@ class Form extends Component {
     this.doSubmit()
   };
 
-  handleChange = ({ target: input }) => {
+  handleInputChange = ({ target: input }) => {
     const errors = { ...this.state.errors };
     const errorMessage = this.validateField(input);
     if (errorMessage) errors[input.name] = errorMessage;
@@ -56,6 +55,14 @@ class Form extends Component {
     this.setState({ data, errors });
   };
 
+  handleCheckboxChange = ({ target: input }) => {
+    const data = {...this.state.data };
+    const errors = { ...this.state.errors }
+    console.log(input.checked)
+    data[input.name] = input.checked
+    this.setState({ data, errors })
+  }
+
   renderButton(label){
     return (
       <button disabled={this.validateForm()} className="btn btn-primary">
@@ -64,17 +71,40 @@ class Form extends Component {
     )
   }
 
-  renderInput(name, label, type = "text"){
+  renderInput(name, label, type = "text", autocomplete = "off"){
     const { data, errors } = this.state;
+    const error = errors[name]
     return (
-      <Input
+      <div className="form-group">
+      <label htmlFor={name}>{label}</label>
+      <input
         type={type}
-        name={name}
-        label={label}
         value={data[name]}
-        handleChange={this.handleChange}
-        error={errors[name]}
+        name={name}
+        id={name}
+        onChange={this.handleInputChange}
+        className="form-control"
+        autoComplete={autocomplete}
       />
+      <div>{error && <div className="alert alert-danger">{error}</div>}</div>
+    </div>
+    )
+  }
+  
+  renderCheckbox(name, label,) {
+    const { data } = this.state
+    return (
+      <div className="form-group">
+        <label htmlFor={name}>{label}</label>
+        <input
+          type="checkbox"
+          checked={data[name]}
+          name={name}
+          id={name}
+          onChange={this.handleCheckboxChange}
+          className="form-check"
+        />
+      </div>
     )
   }
 }

@@ -6,20 +6,20 @@ class CreatePostForm extends Form {
 
   state = {
     data: {
-      name: "",
-      email: "",
-      username: "",
-      password: "",
+      title: "",
+      topic: "",
+      isHero: false,
+      content: ""
     },
     errors: {},
     submitError: "",
   };
 
   joiSchema = Joi.object({
-    name: Joi.string().required().label("Name").max(256),
-    email: Joi.string().email({ tlds: {allow: false} }).required().label("Email").max(256),
-    username: Joi.string().alphanum().required().label("Username").max(128),
-    password: Joi.string().required().label("Password").min(16).max(128),
+    title: Joi.string().required().label("Title").max(256),
+    topic: Joi.string().required().label("Topic").max(256),
+    content: Joi.string().alphanum().required().label("Content"),
+    isHero: Joi.boolean().truthy("checked").falsy("unchecked").label("Is hero content")
   });
 
   doSubmit = async () => {
@@ -30,11 +30,11 @@ class CreatePostForm extends Form {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("name", "Name")}
-          {this.renderInput("email", "Email")}
-          {this.renderInput("username", "Username")}
-          {this.renderInput("password", "Password", "password")}
-          {this.renderButton("Signup")}
+          {this.renderInput("title", "Title")}
+          {this.renderInput("topic", "Topic")}
+          {this.renderInput("content", "Content")}
+          {this.renderCheckbox("isHero", "Is hero content")}
+          {this.renderButton("Post")}
           {this.state.submitError ? <div>{this.state.submitError}</div> : null }
         </form>
       </div>
