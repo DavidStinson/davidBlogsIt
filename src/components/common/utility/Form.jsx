@@ -70,7 +70,7 @@ class Form extends Component {
     )
   }
 
-  renderInput(name, label, type = "text", autocomplete = "off"){
+  renderInput(name, label, type = "text"){
     const { data, errors } = this.state;
     const error = errors[name]
     return (
@@ -83,7 +83,6 @@ class Form extends Component {
         id={name}
         onChange={this.handleInputChange}
         className="form-control"
-        autoComplete={autocomplete}
       />
       <div>{error && <div className="alert alert-danger">{error}</div>}</div>
     </div>

@@ -38,7 +38,7 @@ class App extends Component {
     );
   };
 
-  handleEditedPost = () => {
+  handleUpdatedPost = () => {
     return null;
   };
 
@@ -67,7 +67,7 @@ class App extends Component {
       handleLogout,
       handleSignupOrLogin,
       handleSubmittedPost,
-      handleEditedPost,
+      handleUpdatedPost,
       handleDeletedPost
     } = this;
     return (
@@ -110,7 +110,7 @@ class App extends Component {
               if (!user) return <Redirect to="/login" />;
               return (
                 <EditPostPage
-                  handleUpdatedPost={handleEditedPost}
+                  handleUpdatedPost={handleUpdatedPost}
                   {...props}
                 />
               );

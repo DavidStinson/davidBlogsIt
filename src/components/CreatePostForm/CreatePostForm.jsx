@@ -5,7 +5,6 @@ import * as postAPI from "../../services/post-api"
 
 class CreatePostForm extends Form {
   state = {
-    posts: [{}],
     data: {
       title: "",
       topic: "",
@@ -20,7 +19,7 @@ class CreatePostForm extends Form {
     title: Joi.string().required().label("Title").max(256),
     topic: Joi.string().required().label("Topic").max(256),
     content: Joi.string().required().label("Content"),
-    isHero: Joi.boolean().truthy("checked").falsy("unchecked").label("Is hero content")
+    isHero: Joi.boolean().truthy("checked").falsy("unchecked").label("Is hero content"),
   });
 
   doSubmit = async () => {
@@ -31,7 +30,7 @@ class CreatePostForm extends Form {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form autocomplete="off" onSubmit={this.handleSubmit}>
           {this.renderInput("title", "Title")}
           {this.renderInput("topic", "Topic")}
           {this.renderInput("content", "Content")}
