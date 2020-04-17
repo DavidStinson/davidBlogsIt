@@ -28,13 +28,6 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
-    // topic: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "Topic",
-    //     required: true,
-    //   },
-    // ],
     date: {
       type: String,
       required: true,
