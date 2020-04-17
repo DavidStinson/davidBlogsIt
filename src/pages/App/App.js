@@ -38,8 +38,14 @@ class App extends Component {
     );
   };
 
-  handleUpdatedPost = () => {
-    return null;
+  handleUpdatedPost = (updatedPost) => {
+    const updatedPosts = this.state.posts.map(post => 
+      post._id === updatedPost._id ? updatedPost : post
+    );
+    this.setState(
+      {posts: updatedPosts},
+      () => this.props.history.push('/')
+    );
   };
 
   handleDeletedPost = (postId) => {

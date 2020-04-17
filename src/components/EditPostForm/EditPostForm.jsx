@@ -25,8 +25,8 @@ class EditPostForm extends Form {
   });
 
   doSubmit = async () => {
-    const newPost = await postAPI.update(this.state.data);
-    this.props.handleUpdatedPost(newPost)
+    const updatedPost = await postAPI.update(this.state.data);
+    this.props.handleUpdatedPost(updatedPost)
   };
 
   render() {
