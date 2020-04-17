@@ -7,22 +7,19 @@ const Post = ({ post, user, handleDeletedPost }) => {
   function doDelete(postId) {
     handleDeletedPost(postId);
   }
-  console.log(post);
-  console.log(post.authorRef);
-  console.log(post.authorRef._id);
+  
   return (
     <React.Fragment>
       <h3>{post.title}</h3>
       <p>{post.author}</p>
       <h4>{post.topic}</h4>
       <br />
-      {post.content.map((content) => (
-        <p key={content._id}>{content.data}</p>
-      ))}
+      <p>{post.content}</p>
+      
       {user && (user.isAdmin || user._id === post.authorRef) && (
         <>
           <Link
-            className='btn btn-warning'
+            className='btn btn-warning mr-3'
             to={{
               pathname: '/edit',
               state: {post}

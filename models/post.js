@@ -1,17 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const contentSchema = new Schema(
-  {
-    data: {
-      type: String,
-      required: true,
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
 const dateObj = new Date();
 const dayOpts = { weekday: "long" };
 const monthOpts = { month: "long" };
@@ -55,7 +44,10 @@ const postSchema = new Schema(
       type: Boolean,
       required: true,
     },
-    content: [contentSchema],
+    content: {
+    type: String,
+    required: true,
+    },
   },
   {
     timestamps: true,

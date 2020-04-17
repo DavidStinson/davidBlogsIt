@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
+import EditPostForm from "../../components/EditPostForm/EditPostForm"
 
 const EditPostPage = (props) => {
   return (
@@ -10,4 +11,3 @@ const EditPostPage = (props) => {
 };
 
 export default EditPostPage;
-
