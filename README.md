@@ -9,12 +9,6 @@
 
 ---
 
-# Developer Ah-ha Moments 💡
-
-
-
----
-
 # Wireframe 🗒
 
 
