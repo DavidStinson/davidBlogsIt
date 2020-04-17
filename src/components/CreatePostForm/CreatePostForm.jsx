@@ -10,10 +10,7 @@ class CreatePostForm extends Form {
       title: "",
       topic: "",
       isHero: false,
-      content: [{
-        data: ""
-      }
-      ]
+      content: "",
     },
     errors: {},
     submitError: "",
@@ -22,7 +19,7 @@ class CreatePostForm extends Form {
   joiSchema = Joi.object({
     title: Joi.string().required().label("Title").max(256),
     topic: Joi.string().required().label("Topic").max(256),
-    content: Joi.array().label("Content"),
+    content: Joi.string().required().label("Content"),
     isHero: Joi.boolean().truthy("checked").falsy("unchecked").label("Is hero content")
   });
 
@@ -37,7 +34,7 @@ class CreatePostForm extends Form {
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("title", "Title")}
           {this.renderInput("topic", "Topic")}
-          {this.renderContentInput("content", "Content")}
+          {this.renderInput("content", "Content")}
           {this.renderCheckbox("isHero", "Is hero content")}
           {this.renderButton("Post")}
           {this.state.submitError ? <div>{this.state.submitError}</div> : null }

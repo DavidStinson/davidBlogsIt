@@ -1,15 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 
-const EditPostPage = ({location, }) => {
+const EditPostPage = (props) => {
   return (
-    <div className="CreatePostPage">
-      <header>Create a post</header>
-      <EditPostForm  user={user} handleSubmittedPost={handleSubmittedPost}/>
-  </div>
+    <div className="EditPostPage">
+      <header>Edit a post</header>
+      <EditPostForm {...props} />
+    </div>
   );
-}
- 
+};
+
 export default EditPostPage;
-
-
 

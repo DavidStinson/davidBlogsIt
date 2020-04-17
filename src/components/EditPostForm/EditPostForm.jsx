@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Form from "../common/utility/Form"
 
-class EditPostForm extends Component {
+class EditPostForm extends Form {
   state = {  }
   render() { 
     return (
