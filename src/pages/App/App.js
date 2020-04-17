@@ -1,19 +1,20 @@
-import React, { Component } from 'react';
-import './App.css';
-import { Route, Switch, Redirect } from 'react-router-dom';
-import SignupPage from '../SignupPage/SignupPage';
-import LoginPage from '../LoginPage/LoginPage';
-import CreatePostPage from '../CreatePostPage/CreatePostPage'
-import * as postAPI from '../../services/post-api';
-import * as userAPI from '../../services/user-api';
-import ListPostsPage from '../../pages/ListPostsPage/ListPostsPage'
-import NavBar from '../../components/NavBar/NavBar'
+import React, { Component } from "react";
+import "./App.css";
+import { Route, Switch, Redirect } from "react-router-dom";
+import SignupPage from "../SignupPage/SignupPage";
+import LoginPage from "../LoginPage/LoginPage";
+import CreatePostPage from "../CreatePostPage/CreatePostPage";
+import * as postAPI from "../../services/post-api";
+import * as userAPI from "../../services/user-api";
+import ListPostsPage from "../../pages/ListPostsPage/ListPostsPage";
+import NavBar from "../../components/NavBar/NavBar";
+import EditPostPage from "../EditPostPage/EditPostPage";
 
 class App extends Component {
   state = {
     // Initialize user if there's a token, otherwise null
     user: userAPI.getUser(),
-    posts: []
+    posts: [],
   };
 
   /*--------------------------- Callback Methods ---------------------------*/
@@ -21,71 +22,111 @@ class App extends Component {
   handleLogout = () => {
     userAPI.logout();
     this.setState({ user: null });
-  }
+  };
 
   handleSignupOrLogin = () => {
-    this.setState({user: userAPI.getUser()});
-  }
+    this.setState({ user: userAPI.getUser() });
+  };
 
   handleSubmittedPost = (newPost) => {
-    console.log(newPost)
-    this.setState(state => ({
-      posts:[...state.posts, newPost]
-    }), () => this.props.history.push('/'))
-  }
+    console.log(newPost);
+    this.setState(
+      (state) => ({
+        posts: [...state.posts, newPost],
+      }),
+      () => this.props.history.push("/")
+    );
+  };
+
+  handleEditedPost = () => {
+    return null;
+  };
 
   handleDeletedPost = (postId) => {
-    this.setState(state => ({
-      posts: state.posts.filter(post => post._id !== postId)
-    }), () => this.props.history.push('/'));
-  }
-
+    this.setState(
+      (state) => ({
+        posts: state.posts.filter((post) => post._id !== postId),
+      }),
+      () => this.props.history.push("/")
+    );
+  };
 
   /*-------------------------- Lifecycle Methods ---------------------------*/
 
   async componentDidMount() {
     const posts = await postAPI.index();
-    console.log("mounted")
+    console.log("mounted");
     this.setState({ posts });
   }
 
   /*-------------------------------- Render --------------------------------*/
 
   render() {
-    const {user} = this.state
+    const { user } = this.state;
+    const {
+      handleLogout,
+      handleSignupOrLogin,
+      handleSubmittedPost,
+      handleEditedPost,
+      handleDeletedPost
+    } = this;
     return (
       <div className="App">
         <h1>Welcome to Post</h1>
-        <NavBar
-          user={user}
-          handleLogout={this.handleLogout}
-        />
+        <NavBar user={user} handleLogout={handleLogout} />
         <Switch>
-          <Route exact path='/login' render={({ history }) => 
-            <LoginPage
-              history={history}
-              handleSignupOrLogin={this.handleSignupOrLogin}
-            />
-          }/>
-          <Route exact path='/signup' render={({ history }) => 
-            <SignupPage
-              history={history}
-              handleSignupOrLogin={this.handleSignupOrLogin}
-            />
-          }/>
-          <Route exact path='/new-post' render={(props) => 
-            user ? 
-              <CreatePostPage 
-                user={user} 
-                handleSubmittedPost={this.handleSubmittedPost} 
+          <Route
+            path="/login"
+            render={(props) => (
+              <LoginPage {...props} handleSignupOrLogin={handleSignupOrLogin} />
+            )}
+          />
+          <Route
+            path="/signup"
+            render={(props) => (
+              <SignupPage
                 {...props}
+                handleSignupOrLogin={handleSignupOrLogin}
               />
-            :
-              <Redirect to='/login'/>
-          }/>
-          <Route exact path='/' render={() =>
-            <ListPostsPage posts={this.state.posts} user={user} handleDeletedPost={this.handleDeletedPost}/>
-          }/>
+            )}
+          />
+          <Route
+            exact
+            path="/new-post"
+            render={(props) => {
+              if (!user) return <Redirect to="/login" />;
+              return (
+                <CreatePostPage
+                  user={user}
+                  handleSubmittedPost={handleSubmittedPost}
+                  {...props}
+                />
+              );
+            }}
+          />
+          <Route
+            path="/edit"
+            render={(props) => {
+              if (!user) return <Redirect to="/login" />;
+              return (
+                <EditPostPage
+                  handleUpdatedPost={handleEditedPost}
+                  {...props}
+                />
+              );
+            }}
+          />
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <ListPostsPage
+                posts={this.state.posts}
+                user={user}
+                handleDeletedPost={handleDeletedPost}
+              />
+            )}
+          />
         </Switch>
       </div>
     );

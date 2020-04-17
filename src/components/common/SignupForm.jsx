@@ -4,8 +4,6 @@ import Form from "./utility/Form";
 import * as userAPI from "../../services/user-api"
 
 class SignupForm extends Form {
-  
-
   state = {
     data: {
       name: "",

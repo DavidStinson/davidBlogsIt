@@ -2,18 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./NavBar.css";
 
-const NavBar = (props) => {
-  let nav = props.user ? (
+const NavBar = ({user, handleLogout}) => {
+  let nav = user ? (
     <div>
-      <Link to="/new-post" className="NavBar-link">
+      {user.isAdmin && (<Link to="/new-post" className="NavBar-link">
         Click here to make a post!!
-      </Link>
-      &nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-      <Link to="" className="NavBar-link" onClick={props.handleLogout}>
+      </Link>)}
+      <Link to="" className="NavBar-link" onClick={handleLogout}>
         Logout
       </Link>
       &nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-      <span className="NavBar-welcome">Welcome, {props.user.name}</span>
+      <span className="NavBar-welcome">Welcome, {user.name}</span>
     </div>
   ) : (
     <div>

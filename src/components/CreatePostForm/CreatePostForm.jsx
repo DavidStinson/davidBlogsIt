@@ -4,7 +4,6 @@ import Form from "../common/utility/Form";
 import * as postAPI from "../../services/post-api"
 
 class CreatePostForm extends Form {
-  
   state = {
     posts: [{}],
     data: {
