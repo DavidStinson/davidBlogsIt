@@ -45,7 +45,7 @@ const NavBar = ({ user, handleLogout }) => (
             to="/signup"
             name="Signup"
           >
-            Logout
+            Sign up
           </Menu.Item>
         </Container>
       </Menu>
