@@ -1,9 +1,14 @@
 import React, { Component } from "react";
+import ReactMde from "react-mde";
+import ReactMarkdown from "react-markdown";
+import CodeBlockRenderUtility from "./CodeBlockRenderUtility";
+import "react-mde/lib/styles/css/react-mde-all.css";
 
 class FormUtility extends Component {
   state = {
     data: {},
     errors: {},
+    tab: "write",
   };
 
   joiOptions = {
@@ -58,25 +63,39 @@ class FormUtility extends Component {
   };
 
   handleCheckboxChange = ({ target: input }) => {
-    console.log(input)
+    console.log(input);
     const data = { ...this.state.data };
     const errors = { ...this.state.errors };
-    console.log(input.checked)
+    console.log(input.checked);
     data[input.name] = input.checked;
-    console.log(data[input.name])
+    console.log(data[input.name]);
     this.setState({ data, errors });
-    console.log(this.state.data)
+    console.log(this.state.data);
+  };
+
+  handleMdeChange = (value) => {
+    const errors = { ...this.state.errors };
+    const data = { ...this.state.data };
+    data.content = value;
+    this.setState({ data, errors });
+  };
+
+  handleMdeTabChange = (tab) => {
+    this.setState({ tab });
   };
 
   renderButton(label) {
     return (
-      <button disabled={this.validateForm()} className="ui primary right fluid button">
+      <button
+        disabled={this.validateForm()}
+        className="ui primary right fluid button"
+      >
         {label}
       </button>
     );
   }
 
-  renderInput(name, label, type = "text", style="") {
+  renderInput(name, label, type = "text", style = "") {
     const { data, errors } = this.state;
     const error = errors[name];
     return (
@@ -96,7 +115,7 @@ class FormUtility extends Component {
     );
   }
 
-  renderTextareaInput(name, label, rows=20) {
+  renderTextareaInput(name, label, rows = 20) {
     const { data, errors } = this.state;
     const error = errors[name];
     return (
@@ -119,15 +138,34 @@ class FormUtility extends Component {
     const { data } = this.state;
     return (
       <div className="ui inline field">
-          <label htmlFor={name}>{label}</label>
-          <input
-            type="checkbox"
-            checked={data[name]}
-            name={name}
-            id={name}
-            onChange={this.handleCheckboxChange}
-          />
+        <label htmlFor={name}>{label}</label>
+        <input
+          type="checkbox"
+          checked={data[name]}
+          name={name}
+          id={name}
+          onChange={this.handleCheckboxChange}
+        />
       </div>
+    );
+  }
+
+  renderReactMde(value) {
+    return (
+      <ReactMde
+        value={value}
+        onChange={this.handleMdeChange}
+        selectedTab={this.state.tab}
+        onTabChange={this.handleMdeTabChange}
+        generateMarkdownPreview={(markdown) =>
+          Promise.resolve(
+            <ReactMarkdown
+              source={markdown}
+              renderers={{ code: CodeBlockRenderUtility }}
+            />
+          )
+        }
+      />
     );
   }
 }

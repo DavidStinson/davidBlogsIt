@@ -3,10 +3,6 @@ import Joi from "@hapi/joi";
 import FormUtility from "../common/utility/FormUtility";
 import * as postAPI from "../../services/post-api";
 import { Container, Header, Icon, Segment } from "semantic-ui-react";
-import ReactMde from "react-mde";
-import ReactMarkdown from "react-markdown";
-import CodeBlockRenderUtility from "../common/utility/CodeBlockRenderUtility"
-import "react-mde/lib/styles/css/react-mde-all.css";
 
 class CreatePostForm extends FormUtility {
   state = {
@@ -18,7 +14,6 @@ class CreatePostForm extends FormUtility {
     },
     errors: {},
     submitError: "",
-    tab: "write"
   };
 
   joiSchema = Joi.object({
@@ -36,17 +31,6 @@ class CreatePostForm extends FormUtility {
     this.props.handleSubmittedPost(newPost);
   };
 
-  handleMdeChange = (value) => {
-    const errors = { ...this.state.errors };
-    const data = { ...this.state.data };
-    data.content = value;
-    this.setState({ data, errors });
-  };
-
-  handleMdeTabChange = (tab) => {
-    this.setState({tab})
-  };
-
   render() {
     return (
       <form autoComplete="off" onSubmit={this.handleSubmit} className="ui form">
@@ -60,16 +44,7 @@ class CreatePostForm extends FormUtility {
           </Segment>
           <Segment>
             <Container text>
-              <ReactMde
-                value={this.state.data.content}
-                onChange={this.handleMdeChange}
-                selectedTab={this.state.tab}
-                onTabChange={this.handleMdeTabChange}
-                generateMarkdownPreview={(markdown) =>
-                  Promise.resolve(<ReactMarkdown source={markdown} renderers={{code: CodeBlockRenderUtility}}/>)
-                }
-              />
-              {this.renderTextareaInput("content", "Content")}
+              {this.renderReactMde(this.state.data.content)}
             </Container>
             <div>{this.renderCheckbox("isHero", "Pin this post")}</div>
           </Segment>
