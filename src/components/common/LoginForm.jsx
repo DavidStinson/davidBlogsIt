@@ -2,7 +2,7 @@ import React from "react";
 import Joi from "@hapi/joi";
 import FormUtility from "./utility/FormUtility";
 import * as userAPI from "../../services/user-api";
-import { Segment, Icon } from "semantic-ui-react";
+import { Header, Icon, Segment } from "semantic-ui-react";
 
 class LoginForm extends FormUtility {
   state = {
@@ -42,7 +42,9 @@ class LoginForm extends FormUtility {
       >
         <Segment.Group>
           <Segment>
-            <h2 className="ui dividing centered header">Login</h2>
+            <Header size="large" textAlign="center" dividing>
+              Login
+            </Header>
             {this.renderInput("email", "Email")}
             {this.renderInput("password", "Password", "password")}
           </Segment>

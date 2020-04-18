@@ -2,7 +2,7 @@ import React from "react";
 import Joi from "@hapi/joi";
 import FormUtility from "./utility/FormUtility";
 import * as userAPI from "../../services/user-api";
-import { Segment, Icon } from "semantic-ui-react";
+import { Header, Icon, Segment } from "semantic-ui-react";
 
 class SignupForm extends FormUtility {
   state = {
@@ -48,7 +48,9 @@ class SignupForm extends FormUtility {
       <form autoComplete="off" onSubmit={this.handleSubmit} className="ui form">
         <Segment.Group>
           <Segment>
-            <h2 className="ui dividing centered header">Sign up</h2>
+            <Header Header size="large" textAlign="center" dividing>
+              Sign up
+            </Header>
             {this.renderInput("name", "Name")}
             {this.renderInput("email", "Email")}
             {this.renderInput("username", "Username")}

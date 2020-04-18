@@ -2,8 +2,7 @@ import React from "react";
 import Joi from "@hapi/joi";
 import FormUtility from "../common/utility/FormUtility";
 import * as postAPI from "../../services/post-api";
-import { Segment, Header, Icon } from "semantic-ui-react"
-
+import { Segment, Header, Icon } from "semantic-ui-react";
 
 class CreatePostForm extends FormUtility {
   state = {
@@ -37,7 +36,9 @@ class CreatePostForm extends FormUtility {
       <form autoComplete="off" onSubmit={this.handleSubmit} className="ui form">
         <Segment.Group>
           <Segment>
-            <Header size="huge">Create a new post</Header>
+            <Header Header size="large" textAlign="center" dividing>
+              Create a new post
+            </Header>
             {this.renderInput("title", "Title")}
             {this.renderInput("topic", "Topic")}
           </Segment>
