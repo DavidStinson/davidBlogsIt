@@ -2,7 +2,7 @@ import React from "react";
 import Joi from "@hapi/joi";
 import FormUtility from "../common/utility/FormUtility";
 import * as postAPI from "../../services/post-api";
-import { Segment, Header, Icon } from "semantic-ui-react";
+import { Container, Header, Icon, Segment } from "semantic-ui-react";
 
 class CreatePostForm extends FormUtility {
   state = {
@@ -42,19 +42,21 @@ class CreatePostForm extends FormUtility {
             {this.renderInput("title", "Title")}
             {this.renderInput("topic", "Topic")}
           </Segment>
-          <Segment>
+          <Segment text>
+            <Container text>
             {this.renderTextareaInput("content", "Content")}
+            </Container>
             <div>{this.renderCheckbox("isHero", "Pin this post")}</div>
           </Segment>
+          <Segment clearing>
+            <div>{this.renderButton("Post")}</div>
+          </Segment>
           {this.state.submitError && (
-            <Segment color="red" inverted secondary>
+            <Segment color="red" inverted secondary attached="bottom">
               <Icon name="warning" />
               {this.state.submitError}
             </Segment>
           )}
-          <Segment clearing>
-            <div>{this.renderButton("Post")}</div>
-          </Segment>
         </Segment.Group>
       </form>
     );

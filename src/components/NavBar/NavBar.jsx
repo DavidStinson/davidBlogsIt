@@ -2,13 +2,14 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "./NavBar.css";
 import { Menu, Container } from "semantic-ui-react"
+import NavUtility from "../common/utility/NavUtility"
 
 const NavBar = ({user, handleLogout}) => {
   let nav = user ? (
     <div>
       <Menu fixed="top" inverted>
         <Container>
-          <Menu.Item as='a'>Home</Menu.Item>
+          <Menu.Item as={NavUtility} to="/" name="Home">Home</Menu.Item>
         </Container>
       </Menu>
       {user.isAdmin && (<NavLink to="/new-post" className="NavBar-link">
