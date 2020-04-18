@@ -1,6 +1,4 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import "./NavBar.css";
 import { Container, Menu } from "semantic-ui-react";
 import NavUtility from "../common/utility/NavUtility";
 
