@@ -1,14 +1,16 @@
 import React from "react";
 import SignupForm from "../../components/common/SignupForm";
-import "./SignupPage.css";
+import { Grid } from "semantic-ui-react"
 
 const SignupPage = ({ handleSignupOrLogin, history }) => {
   return (
-    <div className="ui grid">
-      <div className="three wide column"></div>
+    <Grid>
+      <Grid.Column mobile={1} tablet={2} computer={4} largeScreen={5}></Grid.Column>
+      <Grid.Column mobile={14} tablet={12} computer={8} largeScreen={6}>
       <SignupForm handleSignupOrLogin={handleSignupOrLogin} history={history} />
-      <div className="three wide column"></div>
-    </div>
+      </Grid.Column>
+      <Grid.Column mobile={1} tablet={2} computer={4} largeScreen={5}></Grid.Column>
+    </Grid>
   );
 };
 

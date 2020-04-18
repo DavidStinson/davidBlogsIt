@@ -1,9 +1,10 @@
 import React from "react";
 import Joi from "@hapi/joi";
-import Form from "./utility/Form";
+import FormUtility from "./utility/FormUtility";
 import * as userAPI from "../../services/user-api";
+import { Segment, Icon } from "semantic-ui-react";
 
-class SignupForm extends Form {
+class SignupForm extends FormUtility {
   state = {
     data: {
       name: "",
@@ -44,25 +45,23 @@ class SignupForm extends Form {
 
   render() {
     return (
-      <form autoComplete="off" onSubmit={this.handleSubmit} className="ui form ten wide column">
-        <div className="ui raised segments">
-          <div className="ui segment">
+      <form autoComplete="off" onSubmit={this.handleSubmit} className="ui form">
+        <Segment.Group>
+          <Segment>
             <h2 className="ui dividing centered header">Sign up</h2>
             {this.renderInput("name", "Name")}
             {this.renderInput("email", "Email")}
             {this.renderInput("username", "Username")}
             {this.renderInput("password", "Password", "password")}
-          </div>
-          <div className="ui clearing segment">
-            {this.renderButton("Signup")}
-          </div>
-          {this.state.submitError ? (
-            <div className="ui bottom attached error message">
-              <i className="warning icon"></i>
+          </Segment>
+          {this.state.submitError && (
+            <Segment color="red" inverted secondary>
+              <Icon name="warning" />
               {this.state.submitError}
-            </div>
-          ) : null}
-        </div>
+            </Segment>
+          )}
+          <Segment clearing>{this.renderButton("Signup")}</Segment>
+        </Segment.Group>
       </form>
     );
   }

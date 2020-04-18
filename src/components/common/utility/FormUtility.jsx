@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class Form extends Component {
+class FormUtility extends Component {
   state = {
     data: {},
     errors: {},
@@ -132,4 +132,4 @@ class Form extends Component {
   }
 }
 
-export default Form;
+export default FormUtility;

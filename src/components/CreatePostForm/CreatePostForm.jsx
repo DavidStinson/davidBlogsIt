@@ -1,9 +1,11 @@
 import React from "react";
 import Joi from "@hapi/joi";
-import Form from "../common/utility/Form";
+import FormUtility from "../common/utility/FormUtility";
 import * as postAPI from "../../services/post-api";
+import { Segment, Header, Icon } from "semantic-ui-react"
 
-class CreatePostForm extends Form {
+
+class CreatePostForm extends FormUtility {
   state = {
     data: {
       title: "",
@@ -33,26 +35,26 @@ class CreatePostForm extends Form {
   render() {
     return (
       <form autoComplete="off" onSubmit={this.handleSubmit} className="ui form">
-        <div className="ui raised segments">
-          <div className="ui segment">
-            <h2 className="ui dividing centered header">Create a new post</h2>
+        <Segment.Group>
+          <Segment>
+            <Header size="huge">Create a new post</Header>
             {this.renderInput("title", "Title")}
             {this.renderInput("topic", "Topic")}
-          </div>
-          <div className="ui segment">
+          </Segment>
+          <Segment>
             {this.renderTextareaInput("content", "Content")}
             <div>{this.renderCheckbox("isHero", "Pin this post")}</div>
-          </div>
-          <div className="ui clearing segment">
-            <div>{this.renderButton("Post")}</div>
-          </div>
-          {this.state.submitError ? (
-            <div className="ui bottom attached error message">
-              <i className="warning icon"></i>
+          </Segment>
+          {this.state.submitError && (
+            <Segment color="red" inverted secondary>
+              <Icon name="warning" />
               {this.state.submitError}
-            </div>
-          ) : null}
-        </div>
+            </Segment>
+          )}
+          <Segment clearing>
+            <div>{this.renderButton("Post")}</div>
+          </Segment>
+        </Segment.Group>
       </form>
     );
   }

@@ -1,9 +1,10 @@
 import React from "react";
 import Joi from "@hapi/joi";
-import Form from "./utility/Form";
+import FormUtility from "./utility/FormUtility";
 import * as userAPI from "../../services/user-api";
+import { Segment, Icon } from "semantic-ui-react";
 
-class LoginForm extends Form {
+class LoginForm extends FormUtility {
   state = {
     data: { email: "", password: "" },
     errors: {},
@@ -28,7 +29,7 @@ class LoginForm extends Form {
       history.push("/");
     } catch (err) {
       console.log(err);
-      this.setState({ submitError: "Invalid Credentials!" });
+      this.setState({ submitError: "Invalid credentials, try again." });
     }
   };
 
@@ -39,18 +40,20 @@ class LoginForm extends Form {
         onSubmit={this.handleSubmit}
         className="ui form ten wide column"
       >
-        <div className="ui raised segments">
-          <div className="ui segment">
+        <Segment.Group>
+          <Segment>
             <h2 className="ui dividing centered header">Login</h2>
             {this.renderInput("email", "Email")}
             {this.renderInput("password", "Password", "password")}
-          </div>
-          <div className="ui clearing segment">
-            {this.renderButton("Login")}
-          </div>
-
-          {this.state.submitError ? <div>{this.state.submitError}</div> : null}
-        </div>
+          </Segment>
+          {this.state.submitError && (
+            <Segment color="red" inverted secondary>
+              <Icon name="warning" />
+              {this.state.submitError}
+            </Segment>
+          )}
+          <Segment clearing>{this.renderButton("Login")}</Segment>
+        </Segment.Group>
       </form>
     );
   }

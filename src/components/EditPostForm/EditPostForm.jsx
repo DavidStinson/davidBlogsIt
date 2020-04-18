@@ -1,10 +1,10 @@
 import React from "react";
-import Form from "../common/utility/Form";
+import FormUtility from "../common/utility/FormUtility";
 import { Link } from "react-router-dom";
 import Joi from "@hapi/joi";
 import * as postAPI from "../../services/post-api"
 
-class EditPostForm extends Form {
+class EditPostForm extends FormUtility {
   state = {
     data: this.props.location.state.post,
     errors: {},
@@ -33,7 +33,7 @@ class EditPostForm extends Form {
     console.log(this.props);
     return (
       <div>
-        <form  onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
           {this.renderInput("title", "Title")}
           {this.renderInput("topic", "Topic")}
           {this.renderInput("content", "Content")}
