@@ -1,4 +1,6 @@
 import React, { PureComponent } from "react"
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
+import { okaidia } from "react-syntax-highlighter/dist/cjs/styles/prism"
 
 class CodeBlockRenderUtility extends PureComponent {
   static defaultProps = {
@@ -7,14 +9,12 @@ class CodeBlockRenderUtility extends PureComponent {
 
   render() {
     console.log("this happens")
-    console.log(this.props)
+    const { language, value } = this.props;
     return (
-      <pre>
-        <code ref={this.setRef} className={`language-${this.props.language}`}>
-          {this.props.value}
-        </code>
-      </pre>
-    )
+      <SyntaxHighlighter language={language} style={ okaidia }>
+        {value}
+      </SyntaxHighlighter>
+    );
   }
 }
 
