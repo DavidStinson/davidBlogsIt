@@ -4,6 +4,8 @@ import FormUtility from "../common/utility/FormUtility";
 import * as postAPI from "../../services/post-api";
 import { Container, Header, Icon, Segment } from "semantic-ui-react";
 import ReactMde from "react-mde";
+import ReactMarkdown from "react-markdown";
+import CodeBlockRenderUtility from "../common/utility/CodeBlockRenderUtility"
 import "react-mde/lib/styles/css/react-mde-all.css";
 
 class CreatePostForm extends FormUtility {
@@ -16,6 +18,7 @@ class CreatePostForm extends FormUtility {
     },
     errors: {},
     submitError: "",
+    tab: "write"
   };
 
   joiSchema = Joi.object({
@@ -34,14 +37,17 @@ class CreatePostForm extends FormUtility {
   };
 
   handleMdeChange = (value) => {
-    const errors = { ...this.state.errors }
+    const errors = { ...this.state.errors };
     const data = { ...this.state.data };
     data.content = value;
-    this.setState({ data, errors })
-  }
+    this.setState({ data, errors });
+  };
+
+  handleMdeTabChange = (tab) => {
+    this.setState({tab})
+  };
 
   render() {
-    const {data} = this.state
     return (
       <form autoComplete="off" onSubmit={this.handleSubmit} className="ui form">
         <Segment.Group>
@@ -55,10 +61,13 @@ class CreatePostForm extends FormUtility {
           <Segment>
             <Container text>
               <ReactMde
-                value={data.content}
+                value={this.state.data.content}
                 onChange={this.handleMdeChange}
-                onTabChange={() => null}
-                
+                selectedTab={this.state.tab}
+                onTabChange={this.handleMdeTabChange}
+                generateMarkdownPreview={(markdown) =>
+                  Promise.resolve(<ReactMarkdown source={markdown} renderers={{code: CodeBlockRenderUtility}}/>)
+                }
               />
               {this.renderTextareaInput("content", "Content")}
             </Container>
