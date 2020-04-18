@@ -1,29 +1,13 @@
-import React, { Component } from "react"
-import hljs from "highlight.js"
+import React, { PureComponent } from "react"
 
-class CodeBlockRenderUtility extends Component {
-  constructor(props) {
-    super(props)
-    this.setRef = this.setRef.bind(this)
-  }
-
-  setRef(element) {
-    this.codeElement = element
-  }
-
-  componentDidMount() {
-    this.highlightCode()
-  }
-
-  componentDidUpdate() {
-    this.highlightCode()
-  }
-
-  highlightCode() {
-    hljs.highlightBlock(this.codeElement)
-  }
+class CodeBlockRenderUtility extends PureComponent {
+  static defaultProps = {
+    language: null
+  };
 
   render() {
+    console.log("this happens")
+    console.log(this.props)
     return (
       <pre>
         <code ref={this.setRef} className={`language-${this.props.language}`}>
