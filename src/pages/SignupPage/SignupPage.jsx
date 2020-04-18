@@ -4,13 +4,10 @@ import "./SignupPage.css";
 
 const SignupPage = ({ handleSignupOrLogin, history }) => {
   return (
-    <div className="SignupPage">
-      <header>Signup Page</header>
-      <div className="four wide column"></div>
-      <div className="eight wide column">
+    <div className="ui grid">
+      <div className="three wide column"></div>
       <SignupForm handleSignupOrLogin={handleSignupOrLogin} history={history} />
-      </div>
-      <div className="four wide column"></div>
+      <div className="three wide column"></div>
     </div>
   );
 };

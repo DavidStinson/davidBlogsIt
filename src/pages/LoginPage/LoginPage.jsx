@@ -4,9 +4,10 @@ import LoginForm from "../../components/common/LoginForm";
 
 const LoginPage = ({ handleSignupOrLogin, history }) => {
   return (
-    <div className="LoginPage">
-      <header>Log In</header>
+    <div className="ui grid">
+      <div className="three wide column"></div>
       <LoginForm handleSignupOrLogin={handleSignupOrLogin} history={history} />
+      <div className="three wide column"></div>
     </div>
   );
 };
