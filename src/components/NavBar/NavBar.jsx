@@ -1,39 +1,56 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./NavBar.css";
-import { Menu, Container } from "semantic-ui-react"
-import NavUtility from "../common/utility/NavUtility"
+import { Container, Menu } from "semantic-ui-react";
+import NavUtility from "../common/utility/NavUtility";
 
-const NavBar = ({user, handleLogout}) => {
-  let nav = user ? (
-    <div>
-      <Menu fixed="top" inverted>
+const NavBar = ({ user, handleLogout }) => (
+  user ? (
+    <Menu inverted fixed="top">
+      <Menu inverted pointing secondary fixed="top">
         <Container>
-          <Menu.Item as={NavUtility} to="/" name="Home">Home</Menu.Item>
+          <Menu.Item as={NavUtility} to="/" name="Home">
+            Home
+          </Menu.Item>
+          {user.isAdmin && (
+            <Menu.Item as={NavUtility} to="/new-post" name="NewPost">
+              New Post
+            </Menu.Item>
+          )}
+          <Menu.Item as={NavUtility} to="/user" name="User" position="right">
+            {user.name}
+          </Menu.Item>
+          <Menu.Item
+            as={NavUtility}
+            to="/login"
+            onClick={handleLogout}
+          >
+            Logout
+          </Menu.Item>
         </Container>
       </Menu>
-      {user.isAdmin && (<NavLink to="/new-post" className="NavBar-link">
-        Click here to make a post!!
-      </NavLink>)}
-      <NavLink to="" className="NavBar-link" onClick={handleLogout}>
-        Logout
-      </NavLink>
-      &nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-      <span className="NavBar-welcome">Welcome, {user.name}</span>
-    </div>
+    </Menu>
   ) : (
-    <div>
-      <NavLink to="/login" className="NavBar-link">
-        Login
-      </NavLink>
-      &nbsp;&nbsp;|&nbsp;&nbsp;
-      <NavLink to="/signup" className="NavBar-link">
-        Sign up
-      </NavLink>
-    </div>
-  );
-
-  return <div className="NavBar">{nav}</div>;
-};
+    <Menu inverted fixed="top">
+      <Menu inverted pointing secondary fixed="top">
+        <Container>
+          <Menu.Item as={NavUtility} to="/" name="Home">
+            Home
+          </Menu.Item>
+          <Menu.Item as={NavUtility} to="/login" name="Login" position="right">
+            Login
+          </Menu.Item>
+          <Menu.Item
+            as={NavUtility}
+            to="/signup"
+            name="Signup"
+          >
+            Logout
+          </Menu.Item>
+        </Container>
+      </Menu>
+    </Menu>
+  )
+);
 
 export default NavBar;

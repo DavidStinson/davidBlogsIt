@@ -9,6 +9,7 @@ import * as userAPI from "../../services/user-api";
 import ListPostsPage from "../../pages/ListPostsPage/ListPostsPage";
 import NavBar from "../../components/NavBar/NavBar";
 import EditPostPage from "../EditPostPage/EditPostPage";
+import NotFoundPage from "../NotFoundPage/NotFoundPage"
 
 class App extends Component {
   state = {
@@ -97,10 +98,10 @@ class App extends Component {
             )}
           />
           <Route
-            exact
             path="/new-post"
             render={(props) => {
               if (!user) return <Redirect to="/login" />;
+              if (!user.isAdmin) return <Redirect to="/404" />
               return (
                 <CreatePostPage
                   user={user}
@@ -114,6 +115,7 @@ class App extends Component {
             path="/edit"
             render={(props) => {
               if (!user) return <Redirect to="/login" />;
+              if (!user.isAdmin) return <Redirect to="/404" />
               return (
                 <EditPostPage
                   handleUpdatedPost={handleUpdatedPost}
@@ -121,6 +123,9 @@ class App extends Component {
                 />
               );
             }}
+          />
+          <Route
+            path="/404" component={NotFoundPage}
           />
           <Route
             exact
@@ -133,6 +138,7 @@ class App extends Component {
               />
             )}
           />
+          <Redirect to="/404" />
         </Switch>
       </div>
     );
