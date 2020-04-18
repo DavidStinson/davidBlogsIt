@@ -70,7 +70,7 @@ class FormUtility extends Component {
 
   renderButton(label) {
     return (
-      <button disabled={this.validateForm()} className="ui primary right floated button">
+      <button disabled={this.validateForm()} className="ui primary right fluid button">
         {label}
       </button>
     );

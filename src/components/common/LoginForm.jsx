@@ -47,14 +47,14 @@ class LoginForm extends FormUtility {
             </Header>
             {this.renderInput("email", "Email")}
             {this.renderInput("password", "Password", "password")}
+            {this.renderButton("Login")}
           </Segment>
           {this.state.submitError && (
-            <Segment color="red" inverted secondary>
+            <Segment color="red" inverted secondary attached="bottom">
               <Icon name="warning" />
               {this.state.submitError}
             </Segment>
           )}
-          <Segment clearing>{this.renderButton("Login")}</Segment>
         </Segment.Group>
       </form>
     );

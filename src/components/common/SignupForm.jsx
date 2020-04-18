@@ -55,14 +55,14 @@ class SignupForm extends FormUtility {
             {this.renderInput("email", "Email")}
             {this.renderInput("username", "Username")}
             {this.renderInput("password", "Password", "password")}
+            {this.renderButton("Signup")}
           </Segment>
           {this.state.submitError && (
-            <Segment color="red" inverted secondary>
+            <Segment color="red" inverted secondary attached="bottom">
               <Icon name="warning" />
               {this.state.submitError}
             </Segment>
           )}
-          <Segment clearing>{this.renderButton("Signup")}</Segment>
         </Segment.Group>
       </form>
     );
