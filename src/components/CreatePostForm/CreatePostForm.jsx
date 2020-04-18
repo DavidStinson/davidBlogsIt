@@ -1,7 +1,7 @@
 import React from "react";
 import Joi from "@hapi/joi";
 import Form from "../common/utility/Form";
-import * as postAPI from "../../services/post-api"
+import * as postAPI from "../../services/post-api";
 
 class CreatePostForm extends Form {
   state = {
@@ -19,30 +19,43 @@ class CreatePostForm extends Form {
     title: Joi.string().required().label("Title").max(256),
     topic: Joi.string().required().label("Topic").max(256),
     content: Joi.string().required().label("Content"),
-    isHero: Joi.boolean().truthy("checked").falsy("unchecked").label("Is hero content"),
+    isHero: Joi.boolean()
+      .truthy("checked")
+      .falsy("unchecked")
+      .label("Pin this post"),
   });
 
   doSubmit = async () => {
     const newPost = await postAPI.create(this.state.data);
-    this.props.handleSubmittedPost(newPost)
+    this.props.handleSubmittedPost(newPost);
   };
 
   render() {
     return (
-      <div>
-        <form autocomplete="off" onSubmit={this.handleSubmit}>
-          {this.renderInput("title", "Title")}
-          {this.renderInput("topic", "Topic")}
-          {this.renderInput("content", "Content")}
-          {this.renderCheckbox("isHero", "Is hero content")}
-          {this.renderButton("Post")}
-          {this.state.submitError ? <div>{this.state.submitError}</div> : null }
-        </form>
-      </div>
-    )
+      <form autoComplete="off" onSubmit={this.handleSubmit} className="ui form">
+        <div className="ui raised segments">
+          <div className="ui segment">
+            <h2 className="ui dividing centered header">Create a new post</h2>
+            {this.renderInput("title", "Title")}
+            {this.renderInput("topic", "Topic")}
+          </div>
+          <div className="ui segment">
+            {this.renderTextareaInput("content", "Content")}
+            <div>{this.renderCheckbox("isHero", "Pin this post")}</div>
+          </div>
+          <div className="ui clearing segment">
+            <div>{this.renderButton("Post")}</div>
+          </div>
+          {this.state.submitError ? (
+            <div className="ui bottom attached error message">
+              <i className="warning icon"></i>
+              {this.state.submitError}
+            </div>
+          ) : null}
+        </div>
+      </form>
+    );
   }
 }
-  
-
 
 export default CreatePostForm;

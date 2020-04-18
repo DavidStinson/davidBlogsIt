@@ -7,10 +7,10 @@ const Post = ({ post, user, handleDeletedPost }) => {
   function doDelete(postId) {
     handleDeletedPost(postId);
   }
-  
+
   return (
     <React.Fragment>
-      <h3>{post.title}</h3>
+      <h1 className="ui huge header">{post.title}</h1>
       <p>{post.author}</p>
       <h4>{post.topic}</h4>
       <br />
@@ -19,13 +19,14 @@ const Post = ({ post, user, handleDeletedPost }) => {
       {user && (user.isAdmin || user._id === post.authorRef) && (
         <>
           <Link
-            className='btn btn-warning mr-3'
+            className='ui inverted orange right labeled icon button'
             to={{
               pathname: '/edit',
               state: {post}
             }}
           >
             Edit Post
+            <i class="pencil alternate icon"></i>
           </Link>
           <DeleteButton
             label="Delete Post"

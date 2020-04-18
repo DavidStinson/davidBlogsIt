@@ -8,10 +8,11 @@ const DeleteButton = ({ itemId, label, api, doDelete }) => {
 
   return ( 
     <button
-      className="btn btn-danger"
+      className="ui inverted red right labeled icon button"
       onClick={() => handleDelete(itemId, api)}
     >
       {label}
+      <i class="trash icon"></i>
     </button>
   );
 }

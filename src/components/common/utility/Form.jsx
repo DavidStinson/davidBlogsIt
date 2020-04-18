@@ -1,20 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class Form extends Component {
-  state = { 
+  state = {
     data: {},
-    errors: {}
-  }
+    errors: {},
+  };
 
   joiOptions = {
     abortEarly: false,
     errors: { wrap: { label: "" } },
   };
-  
+
   validateForm = () => {
     const { error } = this.joiSchema.validate(this.state.data, this.joiOptions);
-    console.log(error)
-    console.log("^^^^^^^^^^^^^^^^^^^ FORM VALIDATION ERROR ^^^^^^^^^^^^^^^^^^^")
+    console.log(error);
+    console.log(
+      "^^^^^^^^^^^^^^^^^^^ FORM VALIDATION ERROR ^^^^^^^^^^^^^^^^^^^"
+    );
     if (!error) return null;
     const errors = {};
     error.details.forEach((item) => (errors[item.path[0]] = item.message));
@@ -24,7 +26,7 @@ class Form extends Component {
   validateField = ({ name, value }) => {
     const obj = { [name]: value };
     const { error } = this.joiSchema.validate(obj, this.joiOptions);
-    
+
     if (!error) return null;
     let message;
     error.details.forEach((item) => {
@@ -40,7 +42,7 @@ class Form extends Component {
     this.setState({ errors: errors || {} });
     if (errors) return;
 
-    this.doSubmit()
+    this.doSubmit();
   };
 
   handleInputChange = ({ target: input }) => {
@@ -56,55 +58,78 @@ class Form extends Component {
   };
 
   handleCheckboxChange = ({ target: input }) => {
-    const data = {...this.state.data };
-    const errors = { ...this.state.errors }
-    data[input.name] = input.checked
-    this.setState({ data, errors })
-  }
+    console.log(input)
+    const data = { ...this.state.data };
+    const errors = { ...this.state.errors };
+    console.log(input.checked)
+    data[input.name] = input.checked;
+    console.log(data[input.name])
+    this.setState({ data, errors });
+    console.log(this.state.data)
+  };
 
-  renderButton(label){
+  renderButton(label) {
     return (
-      <button disabled={this.validateForm()} className="btn btn-primary">
+      <button disabled={this.validateForm()} className="ui primary right floated button">
         {label}
       </button>
-    )
+    );
   }
 
-  renderInput(name, label, type = "text"){
+  renderInput(name, label, type = "text", style="") {
     const { data, errors } = this.state;
-    const error = errors[name]
+    const error = errors[name];
     return (
-      <div className="form-group">
-      <label htmlFor={name}>{label}</label>
-      <input
-        type={type}
-        value={data[name]}
-        name={name}
-        id={name}
-        onChange={this.handleInputChange}
-        className="form-control"
-      />
-      <div>{error && <div className="alert alert-danger">{error}</div>}</div>
-    </div>
-    )
-  }
-  
-  renderCheckbox(name, label,) {
-    const { data } = this.state
-    return (
-      <div className="form-group">
+      <div className={error ? "error field required" : "field required"}>
         <label htmlFor={name}>{label}</label>
         <input
-          type="checkbox"
-          checked={data[name]}
+          type={type}
+          value={data[name]}
           name={name}
           id={name}
-          onChange={this.handleCheckboxChange}
-          className="form-check"
+          onChange={this.handleInputChange}
+          className={style}
+          placeholder={label}
         />
+        {error && <div className="ui up pointing red basic label">{error}</div>}
       </div>
-    )
+    );
+  }
+
+  renderTextareaInput(name, label, rows=20) {
+    const { data, errors } = this.state;
+    const error = errors[name];
+    return (
+      <div className={error ? "error field required" : "field required"}>
+        <label htmlFor={name}>{label}</label>
+        <textarea
+          value={data[name]}
+          name={name}
+          id={name}
+          onChange={this.handleInputChange}
+          placeholder={label}
+          rows={rows}
+        />
+        {error && <div className="ui up pointing red basic label">{error}</div>}
+      </div>
+    );
+  }
+
+  renderCheckbox(name, label) {
+    const { data } = this.state;
+    return (
+      <div className="ui inline field">
+          <label htmlFor={name}>{label}</label>
+          <input
+            type="checkbox"
+            checked={data[name]}
+            name={name}
+            id={name}
+            onChange={this.handleCheckboxChange}
+          />
+      </div>
+    );
   }
 }
- 
+
 export default Form;

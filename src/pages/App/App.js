@@ -77,7 +77,7 @@ class App extends Component {
       handleDeletedPost
     } = this;
     return (
-      <div className="App">
+      <div className="ui container">
         <h1>Welcome to Post</h1>
         <NavBar user={user} handleLogout={handleLogout} />
         <Switch>
