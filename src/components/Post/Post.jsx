@@ -11,15 +11,20 @@ const Post = ({ post, user, handleDeletedPost }) => {
     handleDeletedPost(postId);
   }
 
+  function allowNode(node, idx ) {
+    if (idx > 1) return false
+    return true
+  }
+
   return (
     <Container text>
       <h1 className="ui huge header">{post.title}</h1>
       <p>{post.author}</p>
       <h4>{post.topic}</h4>
-      <br />
       <ReactMarkdown
         source={post.content}
         renderers={{ code: CodeBlockRenderUtility }}
+        allowNode={allowNode}
       />
 
       {user && (user.isAdmin || user._id === post.authorRef) && (

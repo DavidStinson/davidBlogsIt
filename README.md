@@ -56,9 +56,17 @@ GitHub
 - CSS
 - Semantic UI
 
+### Extra Packages
+
+- [react-markdown](https://github.com/rexxars/react-markdown)
+- [react-mde](https://github.com/andrerpena/react-mde)
+- [hapi/joi](https://github.com/hapijs/joi)
+- [semantic-ui](https://react.semantic-ui.com/)
+
 ---
 
 # Credits 🙌
+
 
 
 ---
