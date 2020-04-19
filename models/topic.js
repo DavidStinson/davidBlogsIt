@@ -4,7 +4,12 @@ const uniqueValidator = require('mongoose-unique-validator')
 
 const topicSchema = new Schema(
   {
-    name: {
+    value: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    text: {
       type: String,
       required: true,
       unique: true

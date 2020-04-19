@@ -31,6 +31,10 @@ class CreatePostForm extends FormUtility {
     this.props.handleSubmittedPost(newPost);
   };
 
+  doDropdownAddition = async (value) => {
+    const newTopic = await 
+  }
+
   render() {
     return (
       <form autoComplete="off" onSubmit={this.handleSubmit} className="ui form">

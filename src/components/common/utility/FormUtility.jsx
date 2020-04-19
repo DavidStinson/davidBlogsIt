@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import ReactMde from "react-mde";
 import ReactMarkdown from "react-markdown";
 import CodeBlockRenderUtility from "./CodeBlockRenderUtility";
+import { Dropdown } from "semantic-ui-react"
 import "react-mde/lib/styles/css/react-mde-all.css";
 
 class FormUtility extends Component {
   state = {
     data: {},
     errors: {},
+    options: [],
     tab: "write",
   };
 
@@ -50,34 +52,50 @@ class FormUtility extends Component {
     this.doSubmit();
   };
 
-  handleInputChange = ({ target: input }) => {
+  handleDropdownAddition = ({ target: input }, {value}) => {
+    this.handleErrors(input)
+    if (errors[input.name]) {
+      console.log("there is an error on this field")
+      return
+    } else {
+      this.doDropdownAddition(value)
+    }
+  }
+
+  handleErrors = (input) => {
     const errors = { ...this.state.errors };
     const errorMessage = this.validateField(input);
     if (errorMessage) errors[input.name] = errorMessage;
     else delete errors[input.name];
+    this.setState({ errors })
+  }
 
+  handleInputChange = ({ target: input }) => {
+    this.handleErrors(input)
     const data = { ...this.state.data };
     data[input.name] = input.value;
-
-    this.setState({ data, errors });
+    this.setState({ data });
   };
+
+  handleDropdownChange = ({target: input}, { value }) => {
+    const data = { ...this.state.data };
+    data[input.name] = input.value;
+    this.setState({ data });
+    this.handleErrors(input)
+  }
 
   handleCheckboxChange = ({ target: input }) => {
     console.log(input);
     const data = { ...this.state.data };
-    const errors = { ...this.state.errors };
-    console.log(input.checked);
     data[input.name] = input.checked;
-    console.log(data[input.name]);
-    this.setState({ data, errors });
+    this.setState({ data});
     console.log(this.state.data);
   };
 
   handleMdeChange = (value) => {
-    const errors = { ...this.state.errors };
     const data = { ...this.state.data };
     data.content = value;
-    this.setState({ data, errors });
+    this.setState({ data });
   };
 
   handleMdeTabChange = (tab) => {
@@ -118,6 +136,7 @@ class FormUtility extends Component {
   renderTextareaInput(name, label, rows = 20) {
     const { data, errors } = this.state;
     const error = errors[name];
+    console.log("hey are you still using this?")
     return (
       <div className={error ? "error field required" : "field required"}>
         <label htmlFor={name}>{label}</label>
@@ -132,6 +151,29 @@ class FormUtility extends Component {
         {error && <div className="ui up pointing red basic label">{error}</div>}
       </div>
     );
+  }
+
+  renderDropdownAllowAdditions(name, label) {
+    const { data, errors, options } = this.state
+    const error = errors[name]
+    return (
+      <div className={error ? "error field required" : "field required"}>
+      <label htmlFor={name}>{label}</label>
+        <Dropdown
+          options={options}
+          placeholder={label}
+          search
+          selection
+          fluid
+          multiple
+          allowAdditions
+          additionLabel={<i style={{ color: 'red' }}>Add Topic: </i>}
+          value={data[name]}
+          onAddItem={this.handleDropdownAddition}
+          onChange={this.handleDropdownChange}
+        />
+      </div>
+    )
   }
 
   renderCheckbox(name, label) {
