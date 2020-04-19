@@ -7,7 +7,7 @@ const NotFoundPage = () => {
     <Grid textAlign="center" style={{ height: "90vh" }} verticalAlign="middle">
       <Grid.Column style={{ maxWidth: 1024 }} textAlign="left">
         <Header size="huge">
-          Looks like the page you're looking for doesn't exist!
+          It would appear that the page you're looking for doesn't exist!
         </Header>
         <Header size="medium">
           <Link to="/">Go back home.</Link>

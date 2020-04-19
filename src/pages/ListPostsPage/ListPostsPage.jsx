@@ -8,7 +8,7 @@ class ListPostsPage extends Component {
     const {posts, user, handleDeletedPost} = this.props
     return ( 
       <Container text>
-      <Segment>
+      <Segment raised>
       {posts.slice(0).reverse().map((post) => 
         <Post
           key={post._id}

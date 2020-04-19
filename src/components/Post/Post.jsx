@@ -4,7 +4,7 @@ import DeleteButton from "../common/DeleteButton/DeleteButton";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import CodeBlockRenderUtility from "../common/utility/CodeBlockRenderUtility";
-import { Container } from "semantic-ui-react";
+import { Divider } from "semantic-ui-react";
 
 const Post = ({ post, user, handleDeletedPost }) => {
   function doDelete(postId) {
@@ -17,7 +17,7 @@ const Post = ({ post, user, handleDeletedPost }) => {
   }
 
   return (
-    <Container text>
+    <>
       <h1 className="ui huge header">{post.title}</h1>
       <p>{post.author}</p>
       <h4>{post.topic}</h4>
@@ -47,7 +47,8 @@ const Post = ({ post, user, handleDeletedPost }) => {
           />
         </>
       )}
-    </Container>
+      <Divider section />
+    </>
   );
 };
 
