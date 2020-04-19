@@ -2,7 +2,7 @@ import React from "react";
 import Joi from "@hapi/joi";
 import FormUtility from "../common/utility/FormUtility";
 import * as postAPI from "../../services/post-api";
-import * as topicAPI from "../../services/topic-api"
+import * as topicAPI from "../../services/topic-api";
 import { Container, Header, Icon, Input, Segment } from "semantic-ui-react";
 
 class CreatePostForm extends FormUtility {
@@ -35,11 +35,9 @@ class CreatePostForm extends FormUtility {
   };
 
   doDropdownAddition = async (value) => {
-    const newTopic = await topicAPI.create(value)
-    this.setState(
-      (state) => ({ options: [...state.options, newTopic]})
-    );
-  }
+    const newTopic = await topicAPI.create(value);
+    this.setState((state) => ({ options: [...state.options, newTopic] }));
+  };
 
   async componentDidMount() {
     const topics = await topicAPI.index();
@@ -55,7 +53,9 @@ class CreatePostForm extends FormUtility {
               Create a new post
             </Header>
             {this.renderInput("title", "Title")}
-            {this.state.loaded ? this.renderDropdownAllowAdditions("topic", "Topic") : <Input loading placeholder='Loading...' /> }
+            {this.state.loaded
+              ? this.renderDropdownAllowAdditions("topic", "Topic")
+              : this.renderLoadingInput("topic", "Topic")}
           </Segment>
           <Segment>
             <Container text>

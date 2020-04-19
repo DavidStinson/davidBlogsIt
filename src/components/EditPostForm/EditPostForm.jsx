@@ -44,7 +44,9 @@ class EditPostForm extends FormUtility {
                 Edit {this.props.location.state.post.title}
               </Header>
               {this.renderInput("title", "Title")}
-              {this.renderInput("topic", "Topic")}
+              {this.state.loaded
+                ? this.renderDropdownAllowAdditions("topic", "Topic")
+                : this.renderLoadingInput("topic", "Topic")}
             </Segment>
             <Segment>
               <Container text>

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactMde from "react-mde";
 import ReactMarkdown from "react-markdown";
 import CodeBlockRenderUtility from "./CodeBlockRenderUtility";
-import { Dropdown } from "semantic-ui-react"
+import { Dropdown, Input } from "semantic-ui-react"
 import "react-mde/lib/styles/css/react-mde-all.css";
 
 class FormUtility extends Component {
@@ -31,11 +31,8 @@ class FormUtility extends Component {
   };
 
   validateField = ({ name, value }) => {
-    console.log(name, value)
-    console.log("IN VALIDATE FIELD METHOD")
     const obj = { [name]: value };
     const { error } = this.joiSchema.validate(obj, this.joiOptions);
-
     if (!error) return null;
     let message;
     error.details.forEach((item) => {
@@ -211,6 +208,18 @@ class FormUtility extends Component {
         }
       />
     );
+  }
+
+  renderLoadingInput(name, label) {
+    const { errors } = this.state
+    const error = errors[name];
+    return (
+      <div className={error ? "error field required" : "field required"}>
+        <label htmlFor={name}>{label}</label>
+      <Input loading fluid disabled placeholder="Loading..." />
+      {error && <div className="ui up pointing red basic label">{error}</div>}
+      </div>
+    )
   }
 }
 
