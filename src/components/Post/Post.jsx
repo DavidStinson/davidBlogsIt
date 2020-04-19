@@ -18,9 +18,9 @@ const Post = ({ post, user, handleDeletedPost }) => {
       <h4>{post.topic}</h4>
       <br />
       <ReactMarkdown
-          source={post.content}
-          renderers={{ code: CodeBlockRenderUtility }}
-        />
+        source={post.content}
+        renderers={{ code: CodeBlockRenderUtility }}
+      />
 
       {user && (user.isAdmin || user._id === post.authorRef) && (
         <>
