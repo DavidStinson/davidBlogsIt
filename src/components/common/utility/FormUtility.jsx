@@ -54,6 +54,7 @@ class FormUtility extends Component {
 
   handleDropdownAddition = ({ target: input }, {value}) => {
     this.handleErrors(input)
+    const errors = { ...this.state.errors };
     if (errors[input.name]) {
       console.log("there is an error on this field")
       return
