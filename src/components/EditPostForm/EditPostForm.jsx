@@ -2,7 +2,8 @@ import React from "react";
 import FormUtility from "../common/utility/FormUtility";
 import { Link } from "react-router-dom";
 import Joi from "@hapi/joi";
-import * as postAPI from "../../services/post-api"
+import * as postAPI from "../../services/post-api";
+import { Button, Container, Header, Icon, Segment } from "semantic-ui-react";
 
 class EditPostForm extends FormUtility {
   state = {
@@ -26,21 +27,45 @@ class EditPostForm extends FormUtility {
 
   doSubmit = async () => {
     const updatedPost = await postAPI.update(this.state.data);
-    this.props.handleUpdatedPost(updatedPost)
+    this.props.handleUpdatedPost(updatedPost);
   };
 
   render() {
     console.log(this.props);
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          {this.renderInput("title", "Title")}
-          {this.renderInput("topic", "Topic")}
-          {this.renderInput("content", "Content")}
-          {this.renderCheckbox("isHero", "Is hero content")}
-          <Link className='btn btn-warning mr-3'to='/'>CANCEL</Link>
-          {this.renderButton("Save Post")}
-          {this.state.submitError ? <div>{this.state.submitError}</div> : null }
+        <form
+          autoComplete="off"
+          onSubmit={this.handleSubmit}
+          className=" ui form"
+        >
+          <Segment.Group>
+            <Segment>
+              <Header size="large" textAlign="center" dividing>
+                Edit {this.props.location.state.post.title}
+              </Header>
+              {this.renderInput("title", "Title")}
+              {this.renderInput("topic", "Topic")}
+            </Segment>
+            <Segment>
+              <Container text>
+                {this.renderReactMde(this.state.data.content)}
+              </Container>
+              <div>{this.renderCheckbox("isHero", "Pin this post")}</div>
+            </Segment>
+            <Button.Group widths="2">
+              <Link className="ui button" to="/">
+                CANCEL
+              </Link>
+              {this.renderButton("Save Post", "ui button primary")}
+            </Button.Group>
+            {this.state.submitError && (
+              <Segment color="red" inverted secondary attached="bottom">
+                <Icon name="warning" />
+                {this.state.submitError}
+              </Segment>
+            )}
+          </Segment.Group>
         </form>
       </div>
     );

@@ -4,7 +4,7 @@ import Post from "../../components/Post/Post"
 const ListPostsPage = ({posts, user, handleDeletedPost}) => {
   return ( 
     <div>
-      {posts.map((post) => 
+      {posts.slice(0).reverse().map((post) => 
         <Post
           key={post._id}
           post={post}

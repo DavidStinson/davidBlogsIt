@@ -1,7 +1,10 @@
 import React from "react";
 import * as postAPI from "../../services/post-api";
 import DeleteButton from "../common/DeleteButton/DeleteButton";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+import CodeBlockRenderUtility from "../common/utility/CodeBlockRenderUtility";
+import { Container } from "semantic-ui-react";
 
 const Post = ({ post, user, handleDeletedPost }) => {
   function doDelete(postId) {
@@ -9,24 +12,27 @@ const Post = ({ post, user, handleDeletedPost }) => {
   }
 
   return (
-    <React.Fragment>
+    <Container text>
       <h1 className="ui huge header">{post.title}</h1>
       <p>{post.author}</p>
       <h4>{post.topic}</h4>
       <br />
-      <p>{post.content}</p>
-      
+      <ReactMarkdown
+          source={post.content}
+          renderers={{ code: CodeBlockRenderUtility }}
+        />
+
       {user && (user.isAdmin || user._id === post.authorRef) && (
         <>
           <Link
-            className='ui inverted orange right labeled icon button'
+            className="ui inverted orange right labeled icon button"
             to={{
-              pathname: '/edit',
-              state: {post}
+              pathname: "/edit",
+              state: { post },
             }}
           >
             Edit Post
-            <i class="pencil alternate icon"></i>
+            <i className="pencil alternate icon"></i>
           </Link>
           <DeleteButton
             label="Delete Post"
@@ -36,7 +42,7 @@ const Post = ({ post, user, handleDeletedPost }) => {
           />
         </>
       )}
-    </React.Fragment>
+    </Container>
   );
 };
 

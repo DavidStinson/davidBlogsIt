@@ -84,11 +84,11 @@ class FormUtility extends Component {
     this.setState({ tab });
   };
 
-  renderButton(label) {
+  renderButton(label, className="ui primary right fluid button" ) {
     return (
       <button
         disabled={this.validateForm()}
-        className="ui primary right fluid button"
+        className={className}
       >
         {label}
       </button>

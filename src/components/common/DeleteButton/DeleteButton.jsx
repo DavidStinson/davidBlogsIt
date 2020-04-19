@@ -12,7 +12,7 @@ const DeleteButton = ({ itemId, label, api, doDelete }) => {
       onClick={() => handleDelete(itemId, api)}
     >
       {label}
-      <i class="trash icon"></i>
+      <i className="trash icon"></i>
     </button>
   );
 };
