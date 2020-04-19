@@ -31,6 +31,8 @@ class FormUtility extends Component {
   };
 
   validateField = ({ name, value }) => {
+    console.log(name, value)
+    console.log("IN VALIDATE FIELD METHOD")
     const obj = { [name]: value };
     const { error } = this.joiSchema.validate(obj, this.joiOptions);
 
@@ -52,24 +54,15 @@ class FormUtility extends Component {
     this.doSubmit();
   };
 
-  handleDropdownAddition = ({ target: input }, {name, value}) => {
-    console.log("handling dropdown addition")
-    console.log(value)
-    this.handleErrors(input)
-    const errors = { ...this.state.errors };
-    if (errors[name]) {
-      console.log(errors[name])
-      console.log("this is the error from this field")
-      return
-    } else {
-      const newOption = { text: value, value }
-      this.doDropdownAddition(newOption)
-    }
+  handleDropdownAddition = (event, input) => {
+    const newOption = { text: input.value, value: input.value }
+    this.doDropdownAddition(newOption)
   }
 
   handleErrors = (input) => {
     const errors = { ...this.state.errors };
     const errorMessage = this.validateField(input);
+    console.log(errorMessage)
     if (errorMessage) errors[input.name] = errorMessage;
     else delete errors[input.name];
     this.setState({ errors })
@@ -82,19 +75,17 @@ class FormUtility extends Component {
     this.setState({ data });
   };
 
-  handleDropdownChange = ({target: input}, {name, value}) => {
+  handleDropdownChange = (event, input) => {
     const data = { ...this.state.data };
-    data[name] = value;
+    data[input.name] = input.value;
     this.setState({ data });
     this.handleErrors(input)
   }
 
   handleCheckboxChange = ({ target: input }) => {
-    console.log(input);
     const data = { ...this.state.data };
     data[input.name] = input.checked;
     this.setState({ data});
-    console.log(this.state.data);
   };
 
   handleMdeChange = (value) => {
@@ -160,6 +151,10 @@ class FormUtility extends Component {
 
   renderDropdownAllowAdditions(name, label) {
     const { data, errors, options } = this.state
+    options.forEach(option => {
+      delete option.createdAt
+      delete option.updatedAt
+    })
     const error = errors[name]
     return (
       <div className={error ? "error field required" : "field required"}>
@@ -178,6 +173,7 @@ class FormUtility extends Component {
           onAddItem={this.handleDropdownAddition}
           onChange={this.handleDropdownChange}
         />
+        {error && <div className="ui up pointing red basic label">{error}</div>}
       </div>
     )
   }

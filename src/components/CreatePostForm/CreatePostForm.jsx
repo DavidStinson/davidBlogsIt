@@ -3,7 +3,7 @@ import Joi from "@hapi/joi";
 import FormUtility from "../common/utility/FormUtility";
 import * as postAPI from "../../services/post-api";
 import * as topicAPI from "../../services/topic-api"
-import { Container, Header, Icon, Segment } from "semantic-ui-react";
+import { Container, Header, Icon, Input, Segment } from "semantic-ui-react";
 
 class CreatePostForm extends FormUtility {
   state = {
@@ -15,12 +15,13 @@ class CreatePostForm extends FormUtility {
     },
     errors: {},
     submitError: "",
-    options: this.props.topicOptions
+    options: [],
+    loaded: false,
   };
 
   joiSchema = Joi.object({
     title: Joi.string().required().label("Title").max(256),
-    topic: Joi.array().required().label("Topic"),
+    topic: Joi.array().required().label("Topic").min(1),
     content: Joi.string().required().label("Content"),
     isHero: Joi.boolean()
       .truthy("checked")
@@ -35,32 +36,17 @@ class CreatePostForm extends FormUtility {
 
   doDropdownAddition = async (value) => {
     const newTopic = await topicAPI.create(value)
-    this.props.handleTopicAddition(newTopic)
+    this.setState(
+      (state) => ({ options: [...state.options, newTopic]})
+    );
   }
 
-
-  static getDerivedStateFromProps(props, state) {
-    console.log("this runs")
-    if (props.topicOptions.length !== state.options.length) {
-      return {options: props.topicOptions}
-    } else {
-      return null
-    }
-  }
-
-  componentDidMount() {
-    console.log("createPostForm is mounting")
-    console.log(this.props)
-    console.log(this.props.topicOptions)
-    console.log("state is set with these ^")
-    this.setState({options: this.props.topicOptions})
-    console.log(this.setState.options)
-    console.log("options put into state")
+  async componentDidMount() {
+    const topics = await topicAPI.index();
+    this.setState({ options: topics, loaded: true });
   }
 
   render() {
-    console.log(this.state.options)
-    console.log(this.state.data)
     return (
       <form autoComplete="off" onSubmit={this.handleSubmit} className="ui form">
         <Segment.Group>
@@ -69,7 +55,7 @@ class CreatePostForm extends FormUtility {
               Create a new post
             </Header>
             {this.renderInput("title", "Title")}
-            {this.renderDropdownAllowAdditions("topic", "Topic")}
+            {this.state.loaded ? this.renderDropdownAllowAdditions("topic", "Topic") : <Input loading placeholder='Loading...' /> }
           </Segment>
           <Segment>
             <Container text>

@@ -39,13 +39,6 @@ class App extends Component {
     );
   };
 
-  handleTopicAddition = (newTopic) => {
-    console.log(newTopic)
-    this.setState(
-      (state) => ({ topics: [...state.topics, newTopic]})
-    );
-  } 
-
   handleUpdatedPost = (updatedPost) => {
     const updatedPosts = this.state.posts.map(post => 
       post._id === updatedPost._id ? updatedPost : post
@@ -76,14 +69,13 @@ class App extends Component {
   /*-------------------------------- Render --------------------------------*/
 
   render() {
-    const { user, topics } = this.state;
+    const { user } = this.state;
     const {
       handleLogout,
       handleSignupOrLogin,
       handleSubmittedPost,
       handleUpdatedPost,
       handleDeletedPost,
-      handleTopicAddition,
     } = this;
     return (
       <div className="ui container">
@@ -114,8 +106,6 @@ class App extends Component {
                 <CreatePostPage
                   user={user}
                   handleSubmittedPost={handleSubmittedPost}
-                  handleTopicAddition={handleTopicAddition}
-                  topicOptions={topics}
                   {...props}
                 />
               );
@@ -129,8 +119,6 @@ class App extends Component {
               return (
                 <EditPostPage
                   handleUpdatedPost={handleUpdatedPost}
-                  handleTopicAddition={handleTopicAddition}
-                  topicOptions={topics}
                   {...props}
                 />
               );

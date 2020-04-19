@@ -31,7 +31,6 @@ class EditPostForm extends FormUtility {
   };
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <form

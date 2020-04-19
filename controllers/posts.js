@@ -1,4 +1,5 @@
 var Post = require("../models/post");
+var Topic = require("../models/topic")
 
 module.exports = {
   index,
@@ -20,6 +21,13 @@ async function create(req, res) {
   console.log("user: ", req.user);
   console.log("post: ", req.body)
   try {
+    let topicRefs = []
+    for (const topic of req.body.topic) {
+      const topicRef = await Topic.findOne({value: topic}, (err,doc) => {
+      })
+      topicRefs.push(topicRef)
+    }
+    req.body.topicRefs = topicRefs
     req.body.author = req.user.name
     req.body.authorRef = req.user._id
     const post = await Post.create(req.body);

@@ -24,10 +24,10 @@ const postSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    topic: {
-      type: String,
-      required: true,
-    },
+    topicRefs: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Topic",
+    }],
     date: {
       type: String,
       required: true,
