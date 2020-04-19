@@ -18,6 +18,7 @@ app.use(express.static(path.join(__dirname, "build")));
 
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/posts", require("./routes/api/posts"));
+app.use("/api/topics", require("./routes/api/topics"))
 
 // All API routes should be above this comment
 // Sends all other GET requests to build/index.html
