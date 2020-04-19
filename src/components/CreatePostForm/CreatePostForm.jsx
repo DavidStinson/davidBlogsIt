@@ -2,6 +2,7 @@ import React from "react";
 import Joi from "@hapi/joi";
 import FormUtility from "../common/utility/FormUtility";
 import * as postAPI from "../../services/post-api";
+import * as topicAPI from "../../services/topic-api"
 import { Container, Header, Icon, Segment } from "semantic-ui-react";
 
 class CreatePostForm extends FormUtility {
@@ -32,7 +33,8 @@ class CreatePostForm extends FormUtility {
   };
 
   doDropdownAddition = async (value) => {
-    const newTopic = await 
+    const newTopic = await topicAPI.create(value)
+    this.props.handleTopicAddition(newTopic)
   }
 
   render() {
