@@ -10,6 +10,7 @@ import ListPostsPage from "../../pages/ListPostsPage/ListPostsPage";
 import NavBar from "../../components/NavBar/NavBar";
 import EditPostPage from "../EditPostPage/EditPostPage";
 import NotFoundPage from "../NotFoundPage/NotFoundPage"
+import TopicsPage from "../TopicsPage/TopicsPage";
 
 class App extends Component {
   state = {
@@ -119,6 +120,18 @@ class App extends Component {
               return (
                 <EditPostPage
                   handleUpdatedPost={handleUpdatedPost}
+                  {...props}
+                />
+              );
+            }}
+          />
+          <Route
+            path="/topics"
+            render={(props) => {
+              if (!user) return <Redirect to="/login" />;
+              if (!user.isAdmin) return <Redirect to="/404" />
+              return (
+                <TopicsPage
                   {...props}
                 />
               );

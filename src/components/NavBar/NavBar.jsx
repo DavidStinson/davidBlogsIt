@@ -15,6 +15,11 @@ const NavBar = ({ user, handleLogout }) => (
               New Post
             </Menu.Item>
           )}
+          {user.isAdmin && (
+            <Menu.Item as={NavUtility} to="/topics" name="Topics">
+              Topics
+            </Menu.Item>
+          )}
           <Menu.Item as={NavUtility} to="/user" name="User" position="right">
             {user.name}
           </Menu.Item>
