@@ -8,7 +8,6 @@ class CodeBlockRenderUtility extends PureComponent {
   };
 
   render() {
-    console.log("this happens")
     const { language, value } = this.props;
     return (
       <SyntaxHighlighter language={language} style={ okaidia }>

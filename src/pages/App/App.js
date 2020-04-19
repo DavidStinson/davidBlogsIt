@@ -1,22 +1,24 @@
 import React, { Component } from "react";
-import "./App.css";
 import { Route, Switch, Redirect } from "react-router-dom";
+import "./App.css";
+import * as postAPI from "../../services/post-api";
+import * as topicAPI from "../../services/topic-api"
+import * as userAPI from "../../services/user-api";
 import SignupPage from "../SignupPage/SignupPage";
 import LoginPage from "../LoginPage/LoginPage";
 import CreatePostPage from "../CreatePostPage/CreatePostPage";
-import * as postAPI from "../../services/post-api";
-import * as userAPI from "../../services/user-api";
 import ListPostsPage from "../../pages/ListPostsPage/ListPostsPage";
-import NavBar from "../../components/NavBar/NavBar";
 import EditPostPage from "../EditPostPage/EditPostPage";
 import NotFoundPage from "../NotFoundPage/NotFoundPage"
 import TopicsPage from "../TopicsPage/TopicsPage";
+import NavBar from "../../components/NavBar/NavBar";
 
 class App extends Component {
   state = {
     // Initialize user if there's a token, otherwise null
     user: userAPI.getUser(),
     posts: [],
+    topics: [],
   };
 
   /*--------------------------- Callback Methods ---------------------------*/
@@ -31,14 +33,18 @@ class App extends Component {
   };
 
   handleSubmittedPost = (newPost) => {
-    console.log(newPost);
     this.setState(
-      (state) => ({
-        posts: [...state.posts, newPost],
-      }),
+      (state) => ({ posts: [...state.posts, newPost]}),
       () => this.props.history.push("/")
     );
   };
+
+  handleTopicAddition = (newTopic) => {
+    console.log(newTopic)
+    this.setState(
+      (state) => ({ topics: [...state.topics, newTopic]})
+    );
+  } 
 
   handleUpdatedPost = (updatedPost) => {
     const updatedPosts = this.state.posts.map(post => 
@@ -63,20 +69,21 @@ class App extends Component {
 
   async componentDidMount() {
     const posts = await postAPI.index();
-    console.log("mounted");
-    this.setState({ posts });
+    const topics = await topicAPI.index();
+    this.setState({ posts, topics });
   }
 
   /*-------------------------------- Render --------------------------------*/
 
   render() {
-    const { user } = this.state;
+    const { user, topics } = this.state;
     const {
       handleLogout,
       handleSignupOrLogin,
       handleSubmittedPost,
       handleUpdatedPost,
-      handleDeletedPost
+      handleDeletedPost,
+      handleTopicAddition,
     } = this;
     return (
       <div className="ui container">
@@ -107,6 +114,8 @@ class App extends Component {
                 <CreatePostPage
                   user={user}
                   handleSubmittedPost={handleSubmittedPost}
+                  handleTopicAddition={handleTopicAddition}
+                  topicOptions={topics}
                   {...props}
                 />
               );
@@ -120,6 +129,8 @@ class App extends Component {
               return (
                 <EditPostPage
                   handleUpdatedPost={handleUpdatedPost}
+                  handleTopicAddition={handleTopicAddition}
+                  topicOptions={topics}
                   {...props}
                 />
               );

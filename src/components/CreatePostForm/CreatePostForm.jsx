@@ -9,17 +9,18 @@ class CreatePostForm extends FormUtility {
   state = {
     data: {
       title: "",
-      topic: "",
+      topic: [],
       isHero: false,
       content: "",
     },
     errors: {},
     submitError: "",
+    options: this.props.topicOptions
   };
 
   joiSchema = Joi.object({
     title: Joi.string().required().label("Title").max(256),
-    topic: Joi.string().required().label("Topic").max(256),
+    topic: Joi.array().required().label("Topic"),
     content: Joi.string().required().label("Content"),
     isHero: Joi.boolean()
       .truthy("checked")
@@ -37,7 +38,29 @@ class CreatePostForm extends FormUtility {
     this.props.handleTopicAddition(newTopic)
   }
 
+
+  static getDerivedStateFromProps(props, state) {
+    console.log("this runs")
+    if (props.topicOptions.length !== state.options.length) {
+      return {options: props.topicOptions}
+    } else {
+      return null
+    }
+  }
+
+  componentDidMount() {
+    console.log("createPostForm is mounting")
+    console.log(this.props)
+    console.log(this.props.topicOptions)
+    console.log("state is set with these ^")
+    this.setState({options: this.props.topicOptions})
+    console.log(this.setState.options)
+    console.log("options put into state")
+  }
+
   render() {
+    console.log(this.state.options)
+    console.log(this.state.data)
     return (
       <form autoComplete="off" onSubmit={this.handleSubmit} className="ui form">
         <Segment.Group>
@@ -46,7 +69,7 @@ class CreatePostForm extends FormUtility {
               Create a new post
             </Header>
             {this.renderInput("title", "Title")}
-            {this.renderInput("topic", "Topic")}
+            {this.renderDropdownAllowAdditions("topic", "Topic")}
           </Segment>
           <Segment>
             <Container text>

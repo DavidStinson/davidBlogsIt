@@ -52,14 +52,18 @@ class FormUtility extends Component {
     this.doSubmit();
   };
 
-  handleDropdownAddition = ({ target: input }, {value}) => {
+  handleDropdownAddition = ({ target: input }, {name, value}) => {
+    console.log("handling dropdown addition")
+    console.log(value)
     this.handleErrors(input)
     const errors = { ...this.state.errors };
-    if (errors[input.name]) {
-      console.log("there is an error on this field")
+    if (errors[name]) {
+      console.log(errors[name])
+      console.log("this is the error from this field")
       return
     } else {
-      this.doDropdownAddition(value)
+      const newOption = { text: value, value }
+      this.doDropdownAddition(newOption)
     }
   }
 
@@ -78,9 +82,9 @@ class FormUtility extends Component {
     this.setState({ data });
   };
 
-  handleDropdownChange = ({target: input}, { value }) => {
+  handleDropdownChange = ({target: input}, {name, value}) => {
     const data = { ...this.state.data };
-    data[input.name] = input.value;
+    data[name] = value;
     this.setState({ data });
     this.handleErrors(input)
   }
@@ -161,6 +165,7 @@ class FormUtility extends Component {
       <div className={error ? "error field required" : "field required"}>
       <label htmlFor={name}>{label}</label>
         <Dropdown
+          name={name}
           options={options}
           placeholder={label}
           search

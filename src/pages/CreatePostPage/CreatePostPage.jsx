@@ -1,10 +1,10 @@
 import React from "react";
 import CreatePostForm from "../../components/CreatePostForm/CreatePostForm"
 
-const CreatePostPage = ({user, handleSubmittedPost}) => {
+const CreatePostPage = (props) => {
   return (
     <>
-      <CreatePostForm  user={user} handleSubmittedPost={handleSubmittedPost}/>
+      <CreatePostForm  {...props}/>
     </>
   );
 };
