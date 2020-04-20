@@ -5,6 +5,7 @@ const topicsCtrl = require("../../controllers/topics");
 /*------------------------------ Public Routes ------------------------------*/
 
 router.get("/", topicsCtrl.index);
+router.get('/:id', topicsCtrl.show);
 
 /*----------------------------- Protected Routes ----------------------------*/
 

@@ -22,7 +22,7 @@ async function create(req, res) {
   console.log("post: ", req.body)
   try {
     let topicRefs = []
-    for (const topic of req.body.topic) {
+    for (const topic of req.body.topics) {
       const topicRef = await Topic.findOne({value: topic}, (err,doc) => {
       })
       topicRefs.push(topicRef)
@@ -50,6 +50,13 @@ async function deleteOne(req, res) {
 
 async function update(req, res) {
   try{
+    let topicRefs = []
+    for (const topic of req.body.topics) {
+      const topicRef = await Topic.findOne({value: topic}, (err,doc) => {
+      })
+      topicRefs.push(topicRef)
+    }
+    req.body.topicRefs = topicRefs
     const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, {new: true});
     res.status(200).json(updatedPost);
   }

@@ -82,7 +82,7 @@ class FormUtility extends Component {
   handleCheckboxChange = ({ target: input }) => {
     const data = { ...this.state.data };
     data[input.name] = input.checked;
-    this.setState({ data});
+    this.setState({ data });
   };
 
   handleMdeChange = (value) => {

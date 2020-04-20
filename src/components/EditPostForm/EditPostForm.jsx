@@ -3,17 +3,20 @@ import FormUtility from "../common/utility/FormUtility";
 import { Link } from "react-router-dom";
 import Joi from "@hapi/joi";
 import * as postAPI from "../../services/post-api";
+import * as topicAPI from "../../services/topic-api"
 import { Button, Container, Header, Icon, Segment } from "semantic-ui-react";
 
 class EditPostForm extends FormUtility {
   state = {
     data: this.props.location.state.post,
     errors: {},
+    loaded: false
   };
 
   joiSchema = Joi.object({
     title: Joi.string().required().label("Title").max(256),
-    topic: Joi.string().required().label("Topic").max(256),
+    topicRefs: Joi.array().required().label("TopicRefs").min(1),
+    topics: Joi.array().required().label("Topics").min(1),
     content: Joi.string().required().label("Content"),
     isHero: Joi.boolean().label("Is hero content"),
     date: Joi.string(),
@@ -30,6 +33,27 @@ class EditPostForm extends FormUtility {
     this.props.handleUpdatedPost(updatedPost);
   };
 
+  doDropdownAddition = async (value) => {
+    const newTopic = await topicAPI.create(value);
+    this.setState((state) => ({ options: [...state.options, newTopic] }));
+  };
+
+  async componentDidMount() {
+    const { topicRefs } = this.props.location.state.post
+    const topicOptions = await topicAPI.index();
+    let topics = []
+    for (const topicRef of topicRefs) {
+      const existingTopic = await topicAPI.show(topicRef)
+      console.log(existingTopic)
+      console.log("^^^Existing topic")
+      topics.push(existingTopic.value)
+    };
+    const data = {...this.state.data}
+    data.topics = topics
+    this.setState({ options: topicOptions, loaded: true, data });
+    console.log(this.state)
+  }
+
   render() {
     return (
       <div>
@@ -45,8 +69,8 @@ class EditPostForm extends FormUtility {
               </Header>
               {this.renderInput("title", "Title")}
               {this.state.loaded
-                ? this.renderDropdownAllowAdditions("topic", "Topic")
-                : this.renderLoadingInput("topic", "Topic")}
+                ? this.renderDropdownAllowAdditions("topics", "Topics")
+                : this.renderLoadingInput("topics", "Topics")}
             </Segment>
             <Segment>
               <Container text>

@@ -3,13 +3,13 @@ import Joi from "@hapi/joi";
 import FormUtility from "../common/utility/FormUtility";
 import * as postAPI from "../../services/post-api";
 import * as topicAPI from "../../services/topic-api";
-import { Container, Header, Icon, Input, Segment } from "semantic-ui-react";
+import { Container, Header, Icon, Segment } from "semantic-ui-react";
 
 class CreatePostForm extends FormUtility {
   state = {
     data: {
       title: "",
-      topic: [],
+      topics: [],
       isHero: false,
       content: "",
     },
@@ -21,7 +21,7 @@ class CreatePostForm extends FormUtility {
 
   joiSchema = Joi.object({
     title: Joi.string().required().label("Title").max(256),
-    topic: Joi.array().required().label("Topic").min(1),
+    topics: Joi.array().required().label("Topics").min(1),
     content: Joi.string().required().label("Content"),
     isHero: Joi.boolean()
       .truthy("checked")
@@ -40,8 +40,8 @@ class CreatePostForm extends FormUtility {
   };
 
   async componentDidMount() {
-    const topics = await topicAPI.index();
-    this.setState({ options: topics, loaded: true });
+    const topicOptions = await topicAPI.index();
+    this.setState({ options: topicOptions, loaded: true });
   }
 
   render() {
@@ -54,8 +54,8 @@ class CreatePostForm extends FormUtility {
             </Header>
             {this.renderInput("title", "Title")}
             {this.state.loaded
-              ? this.renderDropdownAllowAdditions("topic", "Topic")
-              : this.renderLoadingInput("topic", "Topic")}
+              ? this.renderDropdownAllowAdditions("topics", "Topics")
+              : this.renderLoadingInput("topics", "Topics")}
           </Segment>
           <Segment>
             <Container text>

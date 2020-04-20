@@ -9,6 +9,13 @@ export function index() {
   return fetch(BASE_URL, options).then((res) => res.json());
 }
 
+export function show(id) {
+  const options = {
+    method: "GET",
+  };
+  return fetch(`${BASE_URL}/${id}`, options).then((res) => res.json());
+}
+
 export function create(topic) {
   const options = {
     method: "POST",

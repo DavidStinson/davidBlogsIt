@@ -2,6 +2,7 @@ var Topic = require("../models/topic");
 
 module.exports = {
   index,
+  show,
   create,
   delete: deleteOne,
 };
@@ -12,6 +13,16 @@ async function index(req, res) {
     res.status(200).json(topics);
   } catch (err) {
     res.status(500).json(err);
+  }
+}
+
+async function show(req, res) {
+  try{
+      const topic = await Topic.findById(req.params.id);
+      res.status(200).json(topic);
+  }
+  catch(err){
+      res.status(500).json(err);
   }
 }
 
