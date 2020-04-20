@@ -1,114 +1,83 @@
-import React from "react";
+import React, {Component}from "react";
+import * as postAPI from "../../services/post-api";
+import ReactMarkdown from "react-markdown"
+import { Button, Comment, Container, Header, Placeholder, Segment } from "semantic-ui-react";
+import CodeBlockRenderUtility from "../../components/common/utility/CodeBlockRenderUtility"
+import DeleteButton from "../../components/common/DeleteButton/DeleteButton"
 
-import React from "react";
-import FormUtility from "../common/utility/FormUtility";
-import { Link } from "react-router-dom";
-import Joi from "@hapi/joi";
-import * as topicAPI from "../../services/topic-api";
-import { Button, Header, Icon, Segment } from "semantic-ui-react";
-
-class ViewPostPage extends FormUtility {
+class ViewPostPage extends Component {
   state = {
-    data: [],
-    errors: {},
-    loaded: false,
+    data: this.props.location.state.post,
+    loaded: false
   };
 
-  joiSchema = Joi.object({
-    topics: Joi.array().required().label("Topics").min(1),
-    topic: Joi.string().required().label("Topic"),
-    isHero: Joi.boolean().label("Is hero content"),
-    date: Joi.string(),
-    _id: Joi.string(),
-    createdAt: Joi.string(),
-    updatedAt: Joi.string(),
-    __v: Joi.number(),
-  });
-
-  // doSubmit = async () => {
-  //   const updatedTopic = await topicAPI.update(this.state.data);
-  //   this.props.handleUpdatedTopic(updatedTopic);
-  // };
-
-  async componentDidMount() {
-    const topics = await topicAPI.index();
-    const data = { ...this.state.data, topics };
-    this.setState({ loaded: true, data });
+  doDelete = (postId) => {
+    this.props.handleDeletedPost(postId);
   }
 
-  handleTopicDelete = async (item) => {
-    const { topics } = this.state.data;
-    let itemId = "";
-    topics.forEach((topic) => {
-      if (topic.value === item) itemId = topic._id;
-    });
-    if (!itemId) this.setState({ submitError: "Could not find topic ID" });
-    try {
-      const deletedItem = await topicAPI.deleteOne(itemId);
-      if (deletedItem) {
-        const data = { ...this.state.data}
-        data.topics = topics.filter((topic) => topic._id !== itemId)
-        this.setState({ data });
-      }
-    } catch (err) {
-      this.setState({
-        submitError: `Unable to delete ${item}. Existing posts reference this topic. Please remove this topic from any post it belongs to first.`,
-      });
-    }
-  };
-
-  surpressSubmission = (event) => {
-    event.preventDefault();
-  };
+  async componentDidMount() {
+    const { state } = this.props.location
+    console.log(this.props)
+    this.setState({ loaded: true, data: state.post, user: this.props.user});
+    console.log(this.state)
+  }
 
   render() {
-    const { topic } = this.state.data;
+    const { data, user } = this.state
     return (
-      <div>
-        <form
-          autoComplete="off"
-          onSubmit={this.surpressSubmission}
-          className=" ui form"
-        >
-          <Segment.Group>
-            <Segment>
-              <Header size="large" textAlign="center" dividing>
-                Edit Topics
-              </Header>
-              {this.state.loaded
-                ? this.renderSimpleDropdown(
-                    "topic",
-                    "Topic",
-                    this.state.data.topics
-                  )
-                : this.renderLoadingInput("topic", "Topic")}
-            </Segment>
-            {this.state.submitError && (
-              <Segment color="red" inverted secondary>
-                <Icon name="warning" />
-                {this.state.submitError}
-              </Segment>
-            )}
-            <Button.Group widths="3" attached="bottom">
-              <Link className="ui button" to="/">
-                Cancel
-              </Link>
-              {topic ? (
-                <button
-                  className="ui red button"
-                  onClick={() => this.handleTopicDelete(topic)}
-                >
-                  Delete
-                </button>
-              ) : (
-                <button className="ui red disabled button">Delete</button>
-              )}
-
-              {this.renderButton("Tktk!", "ui button primary disabled")}
-            </Button.Group>
-          </Segment.Group>
-        </form>
-      </div>
+      this.state.loaded ? (
+        <>
+        <Container text>
+      <Segment raised>
+          <Header size="huge" className="ib">
+            {data.title}
+          </Header>
+        <Comment.Group>
+          <Comment>
+            <Comment.Avatar src="https://i.imgur.com/ZIMoZ4P.jpg" />
+            <Comment.Content>
+              <Comment.Author as="span">{data.author}</Comment.Author>
+              <Comment.Metadata>
+                <span>{data.date}</span>
+              </Comment.Metadata>
+              <Comment.Text>{data.topicsString}</Comment.Text>
+            </Comment.Content>
+          </Comment>
+        </Comment.Group>
+        <ReactMarkdown
+          source={data.content}
+          renderers={{ code: CodeBlockRenderUtility }}
+        />
+        {user && (user.isAdmin || user._id === data.authorRef) && (
+          <Button.Group widths="1" attached="bottom">
+            <DeleteButton
+              label="Delete Post"
+              itemId={data._id}
+              api={postAPI}
+              doDelete={this.doDelete}
+            />
+          </Button.Group>
+        )}
+        </Segment>
+        </Container>
+      </>
+      ) : (
+        <Container text>
+        <Segment raised>
+          <Placeholder fluid>
+            <Placeholder.Header image>
+              <Placeholder.Line />
+              <Placeholder.Line />
+            </Placeholder.Header>
+            <Placeholder.Paragraph>
+              <Placeholder.Line />
+              <Placeholder.Line />
+              <Placeholder.Line />
+            </Placeholder.Paragraph>
+          </Placeholder>
+        </Segment>
+      </Container>
+      )
     );
   }
 }

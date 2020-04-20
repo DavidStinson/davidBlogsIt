@@ -1,15 +1,10 @@
 import React from "react";
-import * as postAPI from "../../services/post-api";
-import DeleteButton from "../common/DeleteButton/DeleteButton";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import CodeBlockRenderUtility from "../common/utility/CodeBlockRenderUtility";
 import { Comment, Divider, Header } from "semantic-ui-react";
 
 const Post = ({ post, user, handleDeletedPost }) => {
-  function doDelete(postId) {
-    handleDeletedPost(postId);
-  }
 
   function allowNode(node, idx) {
     if (idx > 1) return false;
@@ -31,6 +26,18 @@ const Post = ({ post, user, handleDeletedPost }) => {
             <Comment.Metadata>
               <span>{post.date}</span>
             </Comment.Metadata>
+            {user && (user.isAdmin || user._id === post.authorRef) && (
+              <Link
+                className="ui inverted orange right floated labeled icon button"
+                to={{
+                  pathname: "/edit",
+                  state: { post },
+                }}
+              >
+                Edit Post
+                <i className="pencil alternate icon"></i>
+              </Link>
+            )}
             <Comment.Text>{post.topicsString}</Comment.Text>
           </Comment.Content>
         </Comment>
@@ -40,27 +47,6 @@ const Post = ({ post, user, handleDeletedPost }) => {
         renderers={{ code: CodeBlockRenderUtility }}
         allowNode={allowNode}
       />
-
-      {user && (user.isAdmin || user._id === post.authorRef) && (
-        <>
-          <Link
-            className="ui inverted orange right labeled icon button"
-            to={{
-              pathname: "/edit",
-              state: { post },
-            }}
-          >
-            Edit Post
-            <i className="pencil alternate icon"></i>
-          </Link>
-          <DeleteButton
-            label="Delete Post"
-            itemId={post._id}
-            api={postAPI}
-            doDelete={doDelete}
-          />
-        </>
-      )}
       <Divider section />
     </>
   );

@@ -44,7 +44,7 @@ class EditPostForm extends FormUtility {
     let topics = []
     for (const topicRef of topicRefs) {
       const existingTopic = await topicAPI.show(topicRef)
-      topics.push(existingTopic.value)
+      if (existingTopic) topics.push(existingTopic.value)
     };
     const data = {...this.state.data}
     data.topics = topics
