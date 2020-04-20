@@ -44,8 +44,8 @@ class EditTopicsForm extends FormUtility {
     try {
       const deletedItem = await topicAPI.deleteOne(itemId);
       if (deletedItem) {
-        const data = { ...this.state.data}
-        data.topics = topics.filter((topic) => topic._id !== itemId)
+        const data = { ...this.state.data };
+        data.topics = topics.filter((topic) => topic._id !== itemId);
         this.setState({ data });
       }
     } catch (err) {

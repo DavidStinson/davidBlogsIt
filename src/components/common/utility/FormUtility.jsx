@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactMde from "react-mde";
 import ReactMarkdown from "react-markdown";
 import CodeBlockRenderUtility from "./CodeBlockRenderUtility";
-import { Dropdown, Input } from "semantic-ui-react"
+import { Dropdown, Input } from "semantic-ui-react";
 import "react-mde/lib/styles/css/react-mde-all.css";
 
 class FormUtility extends Component {
@@ -48,20 +48,20 @@ class FormUtility extends Component {
   };
 
   handleDropdownAddition = (event, input) => {
-    const newOption = { text: input.value, value: input.value }
-    this.doDropdownAddition(newOption)
-  }
+    const newOption = { text: input.value, value: input.value };
+    this.doDropdownAddition(newOption);
+  };
 
   handleErrors = (input) => {
     const errors = { ...this.state.errors };
     const errorMessage = this.validateField(input);
     if (errorMessage) errors[input.name] = errorMessage;
     else delete errors[input.name];
-    this.setState({ errors })
-  }
+    this.setState({ errors });
+  };
 
   handleInputChange = ({ target: input }) => {
-    this.handleErrors(input)
+    this.handleErrors(input);
     const data = { ...this.state.data };
     data[input.name] = input.value;
     this.setState({ data });
@@ -71,8 +71,8 @@ class FormUtility extends Component {
     const data = { ...this.state.data };
     data[input.name] = input.value;
     this.setState({ data });
-    this.handleErrors(input)
-  }
+    this.handleErrors(input);
+  };
 
   handleCheckboxChange = ({ target: input }) => {
     const data = { ...this.state.data };
@@ -90,12 +90,9 @@ class FormUtility extends Component {
     this.setState({ tab });
   };
 
-  renderButton(label, className="ui primary right fluid button" ) {
+  renderButton(label, className = "ui primary right fluid button") {
     return (
-      <button
-        disabled={this.validateForm()}
-        className={className}
-      >
+      <button disabled={this.validateForm()} className={className}>
         {label}
       </button>
     );
@@ -122,41 +119,41 @@ class FormUtility extends Component {
   }
 
   renderSimpleDropdown(name, label, options) {
-    const { data, errors } = this.state
-    options.forEach(set => {
-      delete set.createdAt
-      delete set.updatedAt
-    })
-    const error = errors[name]
+    const { data, errors } = this.state;
+    options.forEach((set) => {
+      delete set.createdAt;
+      delete set.updatedAt;
+    });
+    const error = errors[name];
     return (
       <div className={error ? "error field required" : "field required"}>
-      <label htmlFor={name}>{label}</label>
+        <label htmlFor={name}>{label}</label>
         <Dropdown
           name={name}
           options={options}
           placeholder={label}
           selection
           fluid
-          additionLabel={<i style={{ color: 'red' }}>Add Topic: </i>}
+          additionLabel={<i style={{ color: "red" }}>Add Topic: </i>}
           value={data[name]}
           onChange={this.handleDropdownChange}
         />
         {error && <div className="ui up pointing red basic label">{error}</div>}
       </div>
-    )
+    );
   }
 
   renderDropdownAllowAdditions(name, label) {
-    const { data, errors, options } = this.state
-    options.forEach(option => {
-      delete option.createdAt
-      delete option.updatedAt
-    })
-    const error = errors[name]
-    
+    const { data, errors, options } = this.state;
+    options.forEach((option) => {
+      delete option.createdAt;
+      delete option.updatedAt;
+    });
+    const error = errors[name];
+
     return (
       <div className={error ? "error field required" : "field required"}>
-      <label htmlFor={name}>{label}</label>
+        <label htmlFor={name}>{label}</label>
         <Dropdown
           name={name}
           options={options}
@@ -166,14 +163,14 @@ class FormUtility extends Component {
           fluid
           multiple
           allowAdditions
-          additionLabel={<i style={{ color: 'red' }}>Add Topic: </i>}
+          additionLabel={<i style={{ color: "red" }}>Add Topic: </i>}
           value={data[name]}
           onAddItem={this.handleDropdownAddition}
           onChange={this.handleDropdownChange}
         />
         {error && <div className="ui up pointing red basic label">{error}</div>}
       </div>
-    )
+    );
   }
 
   renderCheckbox(name, label) {
@@ -212,15 +209,15 @@ class FormUtility extends Component {
   }
 
   renderLoadingInput(name, label) {
-    const { errors } = this.state
+    const { errors } = this.state;
     const error = errors[name];
     return (
       <div className={error ? "error field required" : "field required"}>
         <label htmlFor={name}>{label}</label>
-      <Input loading fluid disabled placeholder="Loading..." />
-      {error && <div className="ui up pointing red basic label">{error}</div>}
+        <Input loading fluid disabled placeholder="Loading..." />
+        {error && <div className="ui up pointing red basic label">{error}</div>}
       </div>
-    )
+    );
   }
 }
 

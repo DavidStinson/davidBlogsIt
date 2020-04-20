@@ -11,7 +11,7 @@ import ListPostsPage from "../../pages/ListPostsPage/ListPostsPage";
 import EditPostPage from "../EditPostPage/EditPostPage";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import TopicsPage from "../TopicsPage/TopicsPage";
-import ViewPostPage from "../ViewPostPage/ViewPostPage"
+import ViewPostPage from "../ViewPostPage/ViewPostPage";
 import NavBar from "../../components/NavBar/NavBar";
 import { Container, Placeholder, Segment } from "semantic-ui-react";
 

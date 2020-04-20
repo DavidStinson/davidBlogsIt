@@ -16,7 +16,7 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
-    author:{
+    author: {
       type: String,
       required: true,
     },
@@ -24,10 +24,12 @@ const postSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    topicRefs: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Topic",
-    }],
+    topicRefs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Topic",
+      },
+    ],
     date: {
       type: String,
       required: true,
@@ -38,8 +40,8 @@ const postSchema = new Schema(
       required: true,
     },
     content: {
-    type: String,
-    required: true,
+      type: String,
+      required: true,
     },
   },
   {

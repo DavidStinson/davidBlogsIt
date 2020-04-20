@@ -1,5 +1,5 @@
 var Topic = require("../models/topic");
-var Post = require("../models/post")
+var Post = require("../models/post");
 
 module.exports = {
   index,
@@ -18,12 +18,11 @@ async function index(req, res) {
 }
 
 async function show(req, res) {
-  try{
-      const topic = await Topic.findById(req.params.id);
-      res.status(200).json(topic);
-  }
-  catch(err){
-      res.status(500).json(err);
+  try {
+    const topic = await Topic.findById(req.params.id);
+    res.status(200).json(topic);
+  } catch (err) {
+    res.status(500).json(err);
   }
 }
 
@@ -37,16 +36,15 @@ async function create(req, res) {
 }
 
 async function deleteOne(req, res) {
-  try{
-    const post = await Post.find({topicRefs: req.params.id})
+  try {
+    const post = await Post.find({ topicRefs: req.params.id });
     if (!post.length) {
       const deletedTopic = await Topic.findByIdAndRemove(req.params.id);
       res.status(200).json(deletedTopic);
     } else {
-      throw Error
+      throw Error;
     }
-  }
-  catch(err){
+  } catch (err) {
     res.status(500).json(err);
   }
 }

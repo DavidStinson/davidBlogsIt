@@ -3,14 +3,14 @@ import FormUtility from "../common/utility/FormUtility";
 import { Link } from "react-router-dom";
 import Joi from "@hapi/joi";
 import * as postAPI from "../../services/post-api";
-import * as topicAPI from "../../services/topic-api"
+import * as topicAPI from "../../services/topic-api";
 import { Button, Container, Header, Icon, Segment } from "semantic-ui-react";
 
 class EditPostForm extends FormUtility {
   state = {
     data: this.props.location.state.post,
     errors: {},
-    loaded: false
+    loaded: false,
   };
 
   joiSchema = Joi.object({
@@ -39,15 +39,15 @@ class EditPostForm extends FormUtility {
   };
 
   async componentDidMount() {
-    const { topicRefs } = this.props.location.state.post
+    const { topicRefs } = this.props.location.state.post;
     const topicOptions = await topicAPI.index();
-    let topics = []
+    let topics = [];
     for (const topicRef of topicRefs) {
-      const existingTopic = await topicAPI.show(topicRef)
-      if (existingTopic) topics.push(existingTopic.value)
-    };
-    const data = {...this.state.data}
-    data.topics = topics
+      const existingTopic = await topicAPI.show(topicRef);
+      if (existingTopic) topics.push(existingTopic.value);
+    }
+    const data = { ...this.state.data };
+    data.topics = topics;
     this.setState({ options: topicOptions, loaded: true, data });
   }
 

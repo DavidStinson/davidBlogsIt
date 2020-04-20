@@ -5,14 +5,14 @@ const topicsCtrl = require("../../controllers/topics");
 /*------------------------------ Public Routes ------------------------------*/
 
 router.get("/", topicsCtrl.index);
-router.get('/:id', topicsCtrl.show);
+router.get("/:id", topicsCtrl.show);
 
 /*----------------------------- Protected Routes ----------------------------*/
 
 // Process the token for only the routes below
 router.use(require("../../config/auth"));
 router.post("/", checkAuth, topicsCtrl.create);
-router.delete('/:id', checkAuth, topicsCtrl.delete);
+router.delete("/:id", checkAuth, topicsCtrl.delete);
 
 /*----------------------------- Helper Functions ----------------------------*/
 
