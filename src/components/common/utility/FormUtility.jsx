@@ -21,6 +21,8 @@ class FormUtility extends Component {
   validateForm = () => {
     const { error } = this.joiSchema.validate(this.state.data, this.joiOptions);
     if (!error) return null;
+    console.log(error)
+    console.log("^^^ FROM VALIDATION ERROR")
     const errors = {};
     error.details.forEach((item) => (errors[item.path[0]] = item.message));
     return errors;

@@ -19,6 +19,7 @@ class EditPostForm extends FormUtility {
     topics: Joi.array().required().label("Topics").min(1),
     content: Joi.string().required().label("Content"),
     isHero: Joi.boolean().label("Is hero content"),
+    topicsString: Joi.string(),
     date: Joi.string(),
     _id: Joi.string(),
     author: Joi.string(),
