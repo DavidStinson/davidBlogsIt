@@ -1,4 +1,5 @@
 var Topic = require("../models/topic");
+var Post = require("../models/post")
 
 module.exports = {
   index,
@@ -40,8 +41,15 @@ async function create(req, res) {
 
 async function deleteOne(req, res) {
   try{
-    const deletedTopic = await Topic.findByIdAndRemove(req.params.id);
-    res.status(200).json(deletedTopic);
+    const post = await Post.find({topicRefs: req.params.id})
+    console.log(post)
+    console.log("^^^^MATCHING TOPIC FOUND IN EXISTING POST")
+    if (!post) {
+      const deletedTopic = await Topic.findByIdAndRemove(req.params.id);
+      res.status(200).json(deletedTopic);
+    } else {
+      throw Error
+    }
   }
   catch(err){
     res.status(500).json(err);
