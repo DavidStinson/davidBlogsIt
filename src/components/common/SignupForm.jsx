@@ -36,8 +36,6 @@ class SignupForm extends FormUtility {
       // Successfully signed up - show the homepage
       history.push("/");
     } catch (err) {
-      console.log(err);
-      console.log("^^^^^^^ ERROR RECEIVED FROM user-api BY SignupForm ^^^^^^^");
       // Invalid user data (probably duplicate email)
       this.setState({ submitError: err.message });
     }

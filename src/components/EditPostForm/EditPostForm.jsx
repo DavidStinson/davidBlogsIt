@@ -49,7 +49,6 @@ class EditPostForm extends FormUtility {
     const data = {...this.state.data}
     data.topics = topics
     this.setState({ options: topicOptions, loaded: true, data });
-    console.log(this.state)
   }
 
   render() {

@@ -18,8 +18,6 @@ async function index(req, res) {
 }
 
 async function create(req, res) {
-  console.log("user: ", req.user);
-  console.log("post: ", req.body)
   try {
     let topicRefs = []
     for (const topic of req.body.topics) {
@@ -33,7 +31,6 @@ async function create(req, res) {
     const post = await Post.create(req.body);
     res.status(201).json(post);
   } catch (err) {
-    console.log(err)
     res.status(500).json(err);
   }
 }

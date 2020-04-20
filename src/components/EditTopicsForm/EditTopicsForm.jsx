@@ -32,8 +32,6 @@ class EditTopicsForm extends FormUtility {
     const topics = await topicAPI.index();
     const data = { ...this.state.data, topics };
     this.setState({ loaded: true, data });
-    console.log(this.state);
-    console.log("^^^^^^ STATE");
   }
 
   handleTopicDelete = async (item) => {
@@ -45,11 +43,7 @@ class EditTopicsForm extends FormUtility {
     if (!itemId) this.setState({ submitError: "Could not find topic ID" });
     try {
       const deletedItem = await topicAPI.deleteOne(itemId);
-      console.log(deletedItem);
-      console.log("^^ THE DELETED ITEM");
       if (deletedItem) {
-        console.log(topics)
-        console.log("^^^ TOPICS")
         const data = { ...this.state.data}
         data.topics = topics.filter((topic) => topic._id !== itemId)
         this.setState({ data });

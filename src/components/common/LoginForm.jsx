@@ -28,7 +28,6 @@ class LoginForm extends FormUtility {
       handleSignupOrLogin();
       history.push("/");
     } catch (err) {
-      console.log(err);
       this.setState({ submitError: "Invalid credentials, try again." });
     }
   };

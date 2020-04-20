@@ -20,10 +20,6 @@ class FormUtility extends Component {
 
   validateForm = () => {
     const { error } = this.joiSchema.validate(this.state.data, this.joiOptions);
-    console.log(error);
-    console.log(
-      "^^^^^^^^^^^^^^^^^^^ FORM VALIDATION ERROR ^^^^^^^^^^^^^^^^^^^"
-    );
     if (!error) return null;
     const errors = {};
     error.details.forEach((item) => (errors[item.path[0]] = item.message));
@@ -59,7 +55,6 @@ class FormUtility extends Component {
   handleErrors = (input) => {
     const errors = { ...this.state.errors };
     const errorMessage = this.validateField(input);
-    console.log(errorMessage)
     if (errorMessage) errors[input.name] = errorMessage;
     else delete errors[input.name];
     this.setState({ errors })
@@ -74,12 +69,8 @@ class FormUtility extends Component {
 
   handleDropdownChange = (event, input) => {
     const data = { ...this.state.data };
-    console.log(input.value)
-    console.log("^^^ input value")
     data[input.name] = input.value;
     this.setState({ data });
-    console.log(this.state)
-    console.log("^^^^^ DROPDOWN AFTER STATE CHANGE")
     this.handleErrors(input)
   }
 
@@ -130,30 +121,8 @@ class FormUtility extends Component {
     );
   }
 
-  renderTextareaInput(name, label, rows = 20) {
-    const { data, errors } = this.state;
-    const error = errors[name];
-    console.log("hey are you still using this?")
-    return (
-      <div className={error ? "error field required" : "field required"}>
-        <label htmlFor={name}>{label}</label>
-        <textarea
-          value={data[name]}
-          name={name}
-          id={name}
-          onChange={this.handleInputChange}
-          placeholder={label}
-          rows={rows}
-        />
-        {error && <div className="ui up pointing red basic label">{error}</div>}
-      </div>
-    );
-  }
-
   renderSimpleDropdown(name, label, options) {
     const { data, errors } = this.state
-    console.log(data)
-    console.log("^^^ DATA")
     options.forEach(set => {
       delete set.createdAt
       delete set.updatedAt

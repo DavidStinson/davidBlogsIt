@@ -28,13 +28,10 @@ async function show(req, res) {
 }
 
 async function create(req, res) {
-  console.log("user: ", req.user);
-  console.log("post: ", req.body)
   try {
     const topic = await Topic.create(req.body);
     res.status(201).json(topic);
   } catch (err) {
-    console.log(err)
     res.status(500).json(err);
   }
 }
@@ -42,10 +39,6 @@ async function create(req, res) {
 async function deleteOne(req, res) {
   try{
     const post = await Post.find({topicRefs: req.params.id})
-    console.log(req.params.id)
-    console.log("^^^^ID to be deleted")
-    console.log(post.length)
-    console.log("^^^^MATCHING TOPIC FOUND IN EXISTING POST")
     if (!post.length) {
       const deletedTopic = await Topic.findByIdAndRemove(req.params.id);
       res.status(200).json(deletedTopic);

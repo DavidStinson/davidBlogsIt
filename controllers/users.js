@@ -14,8 +14,6 @@ async function signup(req, res) {
     const token = createJWT(user);
     res.json({ token });
   } catch (err) {
-    console.log(err)
-    console.log("^^^^^^ ERROR ON BACKEND users/controllers/users.signup ^^^^^^")
     res.status(400).send("test");
   }
 }
@@ -33,7 +31,6 @@ async function login(req, res) {
       }
     });
   } catch (err) {
-    console.log(err)
     return res.status(401).json(err);
   }
 }
