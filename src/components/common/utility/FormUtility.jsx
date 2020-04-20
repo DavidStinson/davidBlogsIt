@@ -74,8 +74,12 @@ class FormUtility extends Component {
 
   handleDropdownChange = (event, input) => {
     const data = { ...this.state.data };
+    console.log(input.value)
+    console.log("^^^ input value")
     data[input.name] = input.value;
     this.setState({ data });
+    console.log(this.state)
+    console.log("^^^^^ DROPDOWN AFTER STATE CHANGE")
     this.handleErrors(input)
   }
 
@@ -146,6 +150,33 @@ class FormUtility extends Component {
     );
   }
 
+  renderSimpleDropdown(name, label, options) {
+    const { data, errors } = this.state
+    console.log(data)
+    console.log("^^^ DATA")
+    options.forEach(set => {
+      delete set.createdAt
+      delete set.updatedAt
+    })
+    const error = errors[name]
+    return (
+      <div className={error ? "error field required" : "field required"}>
+      <label htmlFor={name}>{label}</label>
+        <Dropdown
+          name={name}
+          options={options}
+          placeholder={label}
+          selection
+          fluid
+          additionLabel={<i style={{ color: 'red' }}>Add Topic: </i>}
+          value={data[name]}
+          onChange={this.handleDropdownChange}
+        />
+        {error && <div className="ui up pointing red basic label">{error}</div>}
+      </div>
+    )
+  }
+
   renderDropdownAllowAdditions(name, label) {
     const { data, errors, options } = this.state
     options.forEach(option => {
@@ -153,6 +184,7 @@ class FormUtility extends Component {
       delete option.updatedAt
     })
     const error = errors[name]
+    
     return (
       <div className={error ? "error field required" : "field required"}>
       <label htmlFor={name}>{label}</label>

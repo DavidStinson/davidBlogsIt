@@ -44,8 +44,6 @@ class EditPostForm extends FormUtility {
     let topics = []
     for (const topicRef of topicRefs) {
       const existingTopic = await topicAPI.show(topicRef)
-      console.log(existingTopic)
-      console.log("^^^Existing topic")
       topics.push(existingTopic.value)
     };
     const data = {...this.state.data}
@@ -78,18 +76,18 @@ class EditPostForm extends FormUtility {
               </Container>
               <div>{this.renderCheckbox("isHero", "Pin this post")}</div>
             </Segment>
-            <Button.Group widths="2">
+            {this.state.submitError && (
+              <Segment color="red" inverted secondary>
+                <Icon name="warning" />
+                {this.state.submitError}
+              </Segment>
+            )}
+            <Button.Group widths="2" attached="bottom">
               <Link className="ui button" to="/">
                 CANCEL
               </Link>
               {this.renderButton("Save Post", "ui button primary")}
             </Button.Group>
-            {this.state.submitError && (
-              <Segment color="red" inverted secondary attached="bottom">
-                <Icon name="warning" />
-                {this.state.submitError}
-              </Segment>
-            )}
           </Segment.Group>
         </form>
       </div>
