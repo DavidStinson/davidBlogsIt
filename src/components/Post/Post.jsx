@@ -47,6 +47,11 @@ const Post = ({ post, user, handleDeletedPost }) => {
         renderers={{ code: CodeBlockRenderUtility }}
         allowNode={allowNode}
       />
+      <Link to={{ pathname: "/post", state: { post } }}>
+        <Header size="small">
+          Keep reading ...
+        </Header>
+      </Link>
       <Divider section />
     </>
   );
