@@ -14,7 +14,7 @@ const Post = ({ post, user, handleDeletedPost }) => {
   return (
     <>
       <Link to={{ pathname: "/post", state: { post } }}>
-        <Header size="huge" className="ib">
+        <Header size="large" className="ib">
           {post.title}
         </Header>
       </Link>
