@@ -2,16 +2,17 @@ import React, { Component } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import * as postAPI from "../../services/post-api";
-import * as topicAPI from "../../services/topic-api"
+import * as topicAPI from "../../services/topic-api";
 import * as userAPI from "../../services/user-api";
 import SignupPage from "../SignupPage/SignupPage";
 import LoginPage from "../LoginPage/LoginPage";
 import CreatePostPage from "../CreatePostPage/CreatePostPage";
 import ListPostsPage from "../../pages/ListPostsPage/ListPostsPage";
 import EditPostPage from "../EditPostPage/EditPostPage";
-import NotFoundPage from "../NotFoundPage/NotFoundPage"
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import TopicsPage from "../TopicsPage/TopicsPage";
 import NavBar from "../../components/NavBar/NavBar";
+import { Container, Placeholder, Segment } from "semantic-ui-react";
 
 class App extends Component {
   state = {
@@ -19,6 +20,7 @@ class App extends Component {
     user: userAPI.getUser(),
     posts: [],
     topics: [],
+    loaded: false,
   };
 
   /*--------------------------- Callback Methods ---------------------------*/
@@ -34,19 +36,16 @@ class App extends Component {
 
   handleSubmittedPost = (newPost) => {
     this.setState(
-      (state) => ({ posts: [...state.posts, newPost]}),
+      (state) => ({ posts: [...state.posts, newPost] }),
       () => this.props.history.push("/")
     );
   };
 
   handleUpdatedPost = (updatedPost) => {
-    const updatedPosts = this.state.posts.map(post => 
+    const updatedPosts = this.state.posts.map((post) =>
       post._id === updatedPost._id ? updatedPost : post
     );
-    this.setState(
-      {posts: updatedPosts},
-      () => this.props.history.push('/')
-    );
+    this.setState({ posts: updatedPosts }, () => this.props.history.push("/"));
   };
 
   handleDeletedPost = (postId) => {
@@ -62,8 +61,17 @@ class App extends Component {
 
   async componentDidMount() {
     const posts = await postAPI.index();
+    for (const post of posts) {
+      let postTopics = [];
+      for (const topicRef of post.topicRefs) {
+        const postTopic = await topicAPI.show(topicRef);
+        if (postTopic) postTopics.push(postTopic.value);
+      }
+      post.topicsString = postTopics.join(", ");
+      console.log(post);
+    }
     const topics = await topicAPI.index();
-    this.setState({ posts, topics });
+    this.setState({ posts, topics, loaded: true });
   }
 
   /*-------------------------------- Render --------------------------------*/
@@ -101,7 +109,7 @@ class App extends Component {
             path="/new-post"
             render={(props) => {
               if (!user) return <Redirect to="/login" />;
-              if (!user.isAdmin) return <Redirect to="/404" />
+              if (!user.isAdmin) return <Redirect to="/404" />;
               return (
                 <CreatePostPage
                   user={user}
@@ -112,10 +120,21 @@ class App extends Component {
             }}
           />
           <Route
+            path="/post"
+            render={(props) => {
+              return (
+                <EditPostPage
+                  handleUpdatedPost={handleUpdatedPost}
+                  {...props}
+                />
+              );
+            }}
+          />
+          <Route
             path="/edit"
             render={(props) => {
               if (!user) return <Redirect to="/login" />;
-              if (!user.isAdmin) return <Redirect to="/404" />
+              if (!user.isAdmin) return <Redirect to="/404" />;
               return (
                 <EditPostPage
                   handleUpdatedPost={handleUpdatedPost}
@@ -128,27 +147,39 @@ class App extends Component {
             path="/topics"
             render={(props) => {
               if (!user) return <Redirect to="/login" />;
-              if (!user.isAdmin) return <Redirect to="/404" />
-              return (
-                <TopicsPage
-                  {...props}
-                />
-              );
+              if (!user.isAdmin) return <Redirect to="/404" />;
+              return <TopicsPage {...props} />;
             }}
           />
-          <Route
-            path="/404" component={NotFoundPage}
-          />
+          <Route path="/404" component={NotFoundPage} />
           <Route
             exact
             path="/"
-            render={() => (
-              <ListPostsPage
-                posts={this.state.posts}
-                user={user}
-                handleDeletedPost={handleDeletedPost}
-              />
-            )}
+            render={() =>
+              this.state.loaded ? (
+                <ListPostsPage
+                  posts={this.state.posts}
+                  user={user}
+                  handleDeletedPost={handleDeletedPost}
+                />
+              ) : (
+                <Container text>
+                  <Segment raised>
+                    <Placeholder fluid>
+                      <Placeholder.Header image>
+                        <Placeholder.Line />
+                        <Placeholder.Line />
+                      </Placeholder.Header>
+                      <Placeholder.Paragraph>
+                        <Placeholder.Line />
+                        <Placeholder.Line />
+                        <Placeholder.Line />
+                      </Placeholder.Paragraph>
+                    </Placeholder>
+                  </Segment>
+                </Container>
+              )
+            }
           />
           <Redirect to="/404" />
         </Switch>

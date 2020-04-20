@@ -4,23 +4,37 @@ import DeleteButton from "../common/DeleteButton/DeleteButton";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import CodeBlockRenderUtility from "../common/utility/CodeBlockRenderUtility";
-import { Divider } from "semantic-ui-react";
+import { Comment, Divider, Header } from "semantic-ui-react";
 
 const Post = ({ post, user, handleDeletedPost }) => {
   function doDelete(postId) {
     handleDeletedPost(postId);
   }
 
-  function allowNode(node, idx ) {
-    if (idx > 1) return false
-    return true
+  function allowNode(node, idx) {
+    if (idx > 1) return false;
+    return true;
   }
 
   return (
     <>
-      <h1 className="ui huge header">{post.title}</h1>
-      <p>{post.author}</p>
-      <h4>{post.topic}</h4>
+      <Link to={{ pathname: "/post", state: { post } }}>
+        <Header size="huge" className="ib">
+          {post.title}
+        </Header>
+      </Link>
+      <Comment.Group>
+        <Comment>
+          <Comment.Avatar src="https://i.imgur.com/ZIMoZ4P.jpg" />
+          <Comment.Content>
+            <Comment.Author as="span">{post.author}</Comment.Author>
+            <Comment.Metadata>
+              <span>{post.date}</span>
+            </Comment.Metadata>
+            <Comment.Text>{post.topicsString}</Comment.Text>
+          </Comment.Content>
+        </Comment>
+      </Comment.Group>
       <ReactMarkdown
         source={post.content}
         renderers={{ code: CodeBlockRenderUtility }}
