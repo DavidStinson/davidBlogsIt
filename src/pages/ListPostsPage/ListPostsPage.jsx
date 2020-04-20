@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Post from "../../components/Post/Post";
-import { Container, Segment } from "semantic-ui-react";
+import { Container, Header, Segment } from "semantic-ui-react";
 
 class ListPostsPage extends Component {
   state = {};
@@ -8,6 +8,8 @@ class ListPostsPage extends Component {
     const { posts, user, handleDeletedPost } = this.props;
     return (
       <Container text>
+        <Header as="h1" textAlign="Center">David Blogs It.</Header>
+        <p>Adventures in software engineering</p>
         <Segment raised>
           {posts
             .slice(0)
