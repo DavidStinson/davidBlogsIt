@@ -43,12 +43,26 @@ class EditTopicsForm extends FormUtility {
       if (topic.value === item) itemId = topic._id;
     });
     if (!itemId) this.setState({ submitError: "Could not find topic ID" });
-    const deletedItem = await topicAPI.deleteOne(itemId);
-    if (deletedItem) {
-    this.setState({ topics: topics.filter((topic) => topic._id !== itemId) });
-    } else {
-      this.setState({ submitError: `Unable to delete ${item}. Existing posts reference this topic. Please remove this topic from any post it belongs to first.`});
+    try {
+      const deletedItem = await topicAPI.deleteOne(itemId);
+      console.log(deletedItem);
+      console.log("^^ THE DELETED ITEM");
+      if (deletedItem) {
+        console.log(topics)
+        console.log("^^^ TOPICS")
+        const data = { ...this.state.data}
+        data.topics = topics.filter((topic) => topic._id !== itemId)
+        this.setState({ data });
+      }
+    } catch (err) {
+      this.setState({
+        submitError: `Unable to delete ${item}. Existing posts reference this topic. Please remove this topic from any post it belongs to first.`,
+      });
     }
+  };
+
+  surpressSubmission = (event) => {
+    event.preventDefault();
   };
 
   render() {
@@ -57,7 +71,7 @@ class EditTopicsForm extends FormUtility {
       <div>
         <form
           autoComplete="off"
-          onSubmit={this.handleSubmit}
+          onSubmit={this.surpressSubmission}
           className=" ui form"
         >
           <Segment.Group>
@@ -81,7 +95,7 @@ class EditTopicsForm extends FormUtility {
             )}
             <Button.Group widths="3" attached="bottom">
               <Link className="ui button" to="/">
-                CANCEL
+                Cancel
               </Link>
               {topic ? (
                 <button
@@ -94,7 +108,7 @@ class EditTopicsForm extends FormUtility {
                 <button className="ui red disabled button">Delete</button>
               )}
 
-              {this.renderButton("Save Post", "ui button primary")}
+              {this.renderButton("Tktk!", "ui button primary disabled")}
             </Button.Group>
           </Segment.Group>
         </form>

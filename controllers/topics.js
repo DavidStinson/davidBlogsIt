@@ -42,9 +42,11 @@ async function create(req, res) {
 async function deleteOne(req, res) {
   try{
     const post = await Post.find({topicRefs: req.params.id})
-    console.log(post)
+    console.log(req.params.id)
+    console.log("^^^^ID to be deleted")
+    console.log(post.length)
     console.log("^^^^MATCHING TOPIC FOUND IN EXISTING POST")
-    if (!post) {
+    if (!post.length) {
       const deletedTopic = await Topic.findByIdAndRemove(req.params.id);
       res.status(200).json(deletedTopic);
     } else {
